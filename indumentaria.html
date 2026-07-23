@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Apparel | Indumentaria & Moda Urbana</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0b0d12;
+            --bg-card: #151821;
+            --accent-pink: #ec4899;
+            --accent-purple: #a855f7;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(11,13,18,0.88), rgba(11,13,18,0.96)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: #fff; letter-spacing: 1px; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--accent-pink); }
+        .logo span { color: var(--accent-pink); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple)); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-contact:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0d12;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0b0d12;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-pink);
+            color: #fff;
+            border-color: var(--accent-pink);
+        }
+
+        /* GRID DE PRODUCTOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-pink); }
+
+        .product-img-box {
+            position: relative;
+            background: #111;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-pink);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-pink); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #151821;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-shirt"></i> AURA <span>APPAREL</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#catalogo">Colección</a></li>
+                <li><a href="#looks">Lookbook</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20prendas%20o%20talles" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Estilo urbano, actitud auténtica</h1>
+        <p class="hero-subtitle">Descubrí las últimas tendencias de temporada. Diseños exclusivos, envíos a todo el país y asesoramiento personalizado.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar remera, buzo, oversize, denim, vestido, campera...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('tops')">Remeras & Tops</button>
+                <button class="filter-btn" onclick="filterCategory('abrigos')">Buzos & Camperas</button>
+                <button class="filter-btn" onclick="filterCategory('bottoms')">Pantalones & Jeans</button>
+                <button class="filter-btn" onclick="filterCategory('vestidos')">Vestidos & Faldas</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="catalogo">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="tops">
+                <div class="product-img-box">
+                    <span class="product-badge">New In</span>
+                    <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Remera Oversize">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Remeras & Tops</span>
+                    <h3 class="product-title">Remera Oversize Cotton heavy 'Aura Studio'</h3>
+                    <div class="product-price">$ 18.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20talles%20de%20Remera%20Oversize%20Aura" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="abrigos">
+                <div class="product-img-box">
+                    <span class="product-badge">Bestseller</span>
+                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Buzo Hoodie">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Buzos & Camperas</span>
+                    <h3 class="product-title">Buzo Hoodie Friza Invisible 'Cyber Black'</h3>
+                    <div class="product-price">$ 34.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Buzo%20Hoodie%20Cyber%20Black" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="bottoms">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Jean Wide Leg">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Pantalones & Jeans</span>
+                    <h3 class="product-title">Jean Wide Leg Denim Rígido Tiro Alto</h3>
+                    <div class="product-price">$ 29.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20talles%20de%20Jean%20Wide%20Leg" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="abrigos">
+                <div class="product-img-box">
+                    <span class="product-badge">Tendencia</span>
+                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Campera Puffer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Buzos & Camperas</span>
+                    <h3 class="product-title">Campera Puffer Matelaseada Térmica Oversize</h3>
+                    <div class="product-price">$ 52.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Campera%20Puffer" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="vestidos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Vestido Midi">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Vestidos & Faldas</span>
+                    <h3 class="product-title">Vestido Midi Ribb Morley Ajustable</h3>
+                    <div class="product-price">$ 24.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Vestido%20Midi%20Ribb" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="bottoms">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1517445312882-bc9910d016b7?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pantalon Cargo">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Pantalones & Jeans</span>
+                    <h3 class="product-title">Pantalón Cargo Parachute Ripstop Unisex</h3>
+                    <div class="product-price">$ 31.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20talles%20de%20Pantalon%20Cargo" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="tops">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Crop Top">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Remeras & Tops</span>
+                    <h3 class="product-title">Crop Top Seamless Deportivo & Urbano</h3>
+                    <div class="product-price">$ 12.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Crop%20Top%20Seamless" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="abrigos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Campera Cuero">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Buzos & Camperas</span>
+                    <h3 class="product-title">Campera Biker Eco Cuero Oversize Fit</h3>
+                    <div class="product-price">$ 46.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Campera%20Biker" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="vestidos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Falda Tablada">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Vestidos & Faldas</span>
+                    <h3 class="product-title">Falda Tablada Pleated Mini Skirt</h3>
+                    <div class="product-price">$ 19.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Falda%20Tablada" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="tops">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Remera Graphic">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Remeras & Tops</span>
+                    <h3 class="product-title">Remera Graphic Print 'Acid Wash' Vintage</h3>
+                    <div class="product-price">$ 16.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Remera%20Acid%20Wash" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="bottoms">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Jogger Oversize">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Pantalones & Jeans</span>
+                    <h3 class="product-title">Jogger Plush Oversize Unisex con Bolsillos</h3>
+                    <div class="product-price">$ 23.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20talles%20de%20Jogger%20Plush" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="abrigos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Tapado">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Buzos & Camperas</span>
+                    <h3 class="product-title">Tapado Blazer Paño Largo 'Sartorial Fit'</h3>
+                    <div class="product-price">$ 58.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Tapado%20Blazer" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="tops">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Top Corset">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Remeras & Tops</span>
+                    <h3 class="product-title">Top Corset Struct de Gabardina con Varillas</h3>
+                    <div class="product-price">$ 19.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Top%20Corset" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="bottoms">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Jean Mom">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Pantalones & Jeans</span>
+                    <h3 class="product-title">Jean Mom Fit Vintage Light Blue</h3>
+                    <div class="product-price">$ 27.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Jean%20Mom%20Fit" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="vestidos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Vestido Cut Out">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Vestidos & Faldas</span>
+                    <h3 class="product-title">Vestido Cut Out 'Nights' con Espalda Descubierta</h3>
+                    <div class="product-price">$ 28.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Vestido%20Cut%20Out" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar Talles por WA
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Locales & Marcas de Indumentaria</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
