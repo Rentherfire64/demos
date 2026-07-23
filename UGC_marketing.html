@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGC Studio & Content Marketing | Videos para Ads & Redes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0d0e15;
+            --bg-card: #161824;
+            --accent-purple: #7c3aed;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(13,14,21,0.88), rgba(13,14,21,0.96)), url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+        .logo i { color: var(--accent-cyan); }
+        .logo span { color: var(--accent-purple); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-cyan)); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { opacity: 0.9; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 900; margin-bottom: 10px; text-transform: uppercase; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0d0e15;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0d0e15;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-purple);
+            color: #fff;
+            border-color: var(--accent-purple);
+        }
+
+        /* GRID DE SERVICIOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-cyan);
+            color: #0d0e15;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-cyan); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+        .product-desc { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
+        .product-price { font-size: 1.1rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #161824;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-video"></i> UGC <span>CREATORS</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#creadores">Creadores</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20contenido%20UGC%20para%20mi%20marca" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Cotizar Campaña
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Contenido Orgánico que Convierte en Ventas</h1>
+        <p class="hero-subtitle">Conectamos tu marca con creadores UGC reales para generar videos auténticos de TikTok, Reels y Meta Ads con alta tasa de conversión.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar unboxing, tiktok ads, testimonio, hooks, foto e-commerce, moda, tech...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('ugc-video')">Videos UGC</button>
+                <button class="filter-btn" onclick="filterCategory('estrategia')">Estrategia & Ads</button>
+                <button class="filter-btn" onclick="filterCategory('fotografia')">Foto de Producto</button>
+                <button class="filter-btn" onclick="filterCategory('packs')">Packs Mensuales</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="servicios">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="ugc-video">
+                <div class="product-img-box">
+                    <span class="product-badge">Más Vendido</span>
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Video Unboxing">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Videos UGC</span>
+                    <h3 class="product-title">Video Unboxing & Primeras Impresiones</h3>
+                    <p class="product-desc">Video formato 9:16 de 30-60s mostrando la experiencia real de desempaquetado y reacción del producto.</p>
+                    <div class="product-price">1 Video + 3 Hooks</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20un%20Video%20Unboxing%20UGC" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="estrategia">
+                <div class="product-img-box">
+                    <span class="product-badge">Especial Ads</span>
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="TikTok Ads">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Estrategia & Ads</span>
+                    <h3 class="product-title">Pack TikTok & Meta Ads High-CTR</h3>
+                    <p class="product-desc">Guiones estructurados con Hooks enganchadores, problema/solución y Call To Action optimizado para pauta.</p>
+                    <div class="product-price">Guion + Edición Incluida</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20del%20Pack%20High-CTR%20para%20Ads" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="ugc-video">
+                <div class="product-img-box">
+                    <span class="product-badge">Tendencia</span>
+                    <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Testimonio Hablado">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Videos UGC</span>
+                    <h3 class="product-title">Testimonio Hablado / Reseña Honesta</h3>
+                    <p class="product-desc">Creador en cámara explicando beneficios clave, cómo resolvió su problema y por qué recomienda tu marca.</p>
+                    <div class="product-price">Formato Vertical HD</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20un%20Video%20Testimonio%20UGC" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="packs">
+                <div class="product-img-box">
+                    <span class="product-badge">Ahorro 20%</span>
+                    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pack Mensual">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Packs Mensuales</span>
+                    <h3 class="product-title">Pack Starter: 5 Videos UGC Mensuales</h3>
+                    <p class="product-desc">ideal para mantener vigentes tus campañas de anuncios o alimentar tu feed de Reels y TikTok semanalmente.</p>
+                    <div class="product-price">5 Videos + Creadores Variados</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20el%20Pack%20Starter%20de%205%20Videos" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="fotografia">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Foto Lifestyle">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Fotografía de Producto</span>
+                    <h3 class="product-title">Fotografía UGC Lifestyle & Estilo de Vida</h3>
+                    <p class="product-desc">Fotos reales de productos siendo usados en entornos naturales (casa, calle, gimnasio, café).</p>
+                    <div class="product-price">Pack de 10 Fotos Editadas</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20Fotos%20Lifestyle%20de%20Producto" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="ugc-video">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=400&auto=format&fit=crop" class="product-img" alt="GRWM / Tutorial">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Videos UGC</span>
+                    <h3 class="product-title">Get Ready With Me (GRWM) / Tutorial</h3>
+                    <p class="product-desc">Formato orgánico perfecto para belleza, moda y cosmética mostrando la aplicación paso a paso.</p>
+                    <div class="product-price">Especial Moda & Beauty</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20un%20video%20GRWM%20o%20Tutorial" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="estrategia">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Guiones y Hooks">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Estrategia & Ads</span>
+                    <h3 class="product-title">Redacción de Guiones & Matriz de Hooks</h3>
+                    <p class="product-desc">Desarrollo de ángulos de venta psicológicos, textos persuasivos y variaciones para testing de anuncios.</p>
+                    <div class="product-price">Set de 5 Guiones Estratégicos</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Necesito%20servicio%20de%20Guiones%20y%20Hooks%20para%20Ads" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="packs">
+                <div class="product-img-box">
+                    <span class="product-badge">Recomendado</span>
+                    <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Scale Pack">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Packs Mensuales</span>
+                    <h3 class="product-title">Scale Pack: 10 Videos + Variaciones de Hooks</h3>
+                    <p class="product-desc">Ideal para marcas e-commerce escalando inversión en Meta Ads, TikTok Ads y YouTube Shorts.</p>
+                    <div class="product-price">10 Videos + 20 Variaciones</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20del%20Scale%20Pack%20de%2010%20Videos" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="ugc-video">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="App / Tech Demo">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Videos UGC</span>
+                    <h3 class="product-title">Demo de Apps, Software & Gadgets Tech</h3>
+                    <p class="product-desc">Creadores tech mostrando en pantalla el funcionamiento de aplicaciones, servicios digitales o accesorios.</p>
+                    <div class="product-price">Grabación de Pantalla + Facecam</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20un%20video%20UGC%20demo%20para%20mi%20App/Tech" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="fotografia">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Foto Estudio">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Fotografía de Producto</span>
+                    <h3 class="product-title">Fotografía Macro & Aesthetic de Detalle</h3>
+                    <p class="product-desc">Captura de texturas, ingredientes y detalles de empaque con iluminación limpia profesional.</p>
+                    <div class="product-price">Optimizado para Tienda Online</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20fotos%20de%20estudio/macro%20para%20mi%20e-commerce" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="ugc-video">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Rutina Fitness">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Videos UGC</span>
+                    <h3 class="product-title">UGC Fitness / Suplementos & Vida Sana</h3>
+                    <p class="product-desc">Atletas o creadores fitness integrando proteínas, ropa deportiva o accesorios en su entrenamiento.</p>
+                    <div class="product-price">Contenido Dinámico</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20contenido%20UGC%20Fitness/Salud" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="estrategia">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Edicion Dinamica">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Estrategia & Ads</span>
+                    <h3 class="product-title">Servicio de Edición Dinámica & Subtítulos CapCut</h3>
+                    <p class="product-desc">Transformamos tu material crudo en piezas virales con subtítulos animados, emojis y efectos de sonido.</p>
+                    <div class="product-price">Optimización de Retención</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20contratar%20servicio%20de%20Edicion%20de%20Videos" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="ugc-video">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Foodie UGC">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Videos UGC</span>
+                    <h3 class="product-title">UGC Gastronómico & Experiencia en Restaurante</h3>
+                    <p class="product-desc">Visita de creador al local grabando plato a plato, ambiente y recomendación directa para Reels/TikTok.</p>
+                    <div class="product-price">Cobertura In Situ</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20un%20creador%20UGC%20para%20mi%20Restaurante/Bar" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="packs">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Full Content Hub">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Packs Mensuales</span>
+                    <h3 class="product-title">Full Content Hub: 15 Videos + 20 Fotos</h3>
+                    <p class="product-desc">Solución 360° con múltiples perfiles de creadores para cubrir todo el calendario editorial del mes.</p>
+                    <div class="product-price">Estrategia Integral</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20el%20Full%20Content%20Hub" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="ugc-video">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&auto=format&fit=crop" class="product-img" alt="ASMR / Sensorial">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Videos UGC</span>
+                    <h3 class="product-title">Video ASMR & Experiencia Sensorial</h3>
+                    <p class="product-desc">Enfoque auditivo y estético maximizando los sonidos de empaque, texturas y uso del producto.</p>
+                    <div class="product-price">Audio de Alta Fidelidad</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20un%20video%20UGC%20estilo%20ASMR" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Agencias de UGC, Marketing & Creadores de Contenido</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const desc = card.querySelector('.product-desc').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query) || desc.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
