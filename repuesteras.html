@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repuestos Express | Autopartes & Multimarca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0c0d10;
+            --bg-card: #151821;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(12,13,16,0.88), rgba(12,13,16,0.96)), url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+        .logo i { color: var(--accent-red); }
+        .logo span { color: var(--accent-red); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-red); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #dc2626; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; margin-bottom: 10px; text-transform: uppercase; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0c0d10;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0c0d10;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-red);
+            color: #fff;
+            border-color: var(--accent-red);
+        }
+
+        /* GRID DE PRODUCTOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-red); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .product-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-red);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-red); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #151821;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-car-side"></i> REPUESTOS <span>EXPRESS</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#marcas">Marcas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20un%20repuesto%20para%20mi%20vehiculo" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Consultar Compatibilidad
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Autopartes & Repuestos Multimarca</h1>
+        <p class="hero-subtitle">Bujías, pastillas de freno, kits de distribución, amortiguadores y fluidos. Consultá con tu número de chasis o modelo.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar pastillas, amortiguador, kit distribucion, aceite, correa, marca...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('frenos')">Frenos & Suspensión</button>
+                <button class="filter-btn" onclick="filterCategory('motor')">Motor & Distribución</button>
+                <button class="filter-btn" onclick="filterCategory('electricidad')">Electricidad & Encendido</button>
+                <button class="filter-btn" onclick="filterCategory('aceites')">Aceites & Filtros</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="catalogo">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="frenos">
+                <div class="product-img-box">
+                    <span class="product-badge">OEM Quality</span>
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pastillas de Freno">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Frenos & Suspensión</span>
+                    <h3 class="product-title">Juego Pastillas de Freno Delanteras Bosch (Sinterizadas)</h3>
+                    <div class="product-price">$ 28.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20compatibilidad%20de%20Pastillas%20de%20Freno%20Bosch" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="motor">
+                <div class="product-img-box">
+                    <span class="product-badge">Kit Completo</span>
+                    <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Kit Distribucion">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Motor & Distribución</span>
+                    <h3 class="product-title">Kit Distribución Gates + Bomba de Agua SKF Multimarca</h3>
+                    <div class="product-price">$ 95.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20el%20Kit%20de%20Distribucion%20Gates" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="aceites">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Aceite Sintetico">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Aceites & Filtros</span>
+                    <h3 class="product-title">Aceite Sintético Motul 8100 X-cess 5W40 (4 Litros)</h3>
+                    <div class="product-price">$ 46.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Aceite%20Motul%205W40" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="frenos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Amortiguador">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Frenos & Suspensión</span>
+                    <h3 class="product-title">Amortiguador Delantero Monroe Gas (Par)</h3>
+                    <div class="product-price">$ 112.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Amortiguadores%20Monroe" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="electricidad">
+                <div class="product-img-box">
+                    <span class="product-badge">Alto Rendimiento</span>
+                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Bujias Iridium">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Electricidad & Encendido</span>
+                    <h3 class="product-title">Juego x4 Bujías NGK Iridium IX Laser High Power</h3>
+                    <div class="product-price">$ 34.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20bujias%20NGK%20Iridium" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="electricidad">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Bateria Auto">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Electricidad & Encendido</span>
+                    <h3 class="product-title">Batería Moura 12V 65Ah Reforzada Libre Mantenimiento</h3>
+                    <div class="product-price">$ 89.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Bateria%20Moura%2012V" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="aceites">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Kit Filtros">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Aceites & Filtros</span>
+                    <h3 class="product-title">Kit de 4 Filtros Mann Filter (Aceite, Aire, Nafta, Habitáculo)</h3>
+                    <div class="product-price">$ 31.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20Kit%20Filtros%20Mann" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="frenos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Discos Freno">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Frenos & Suspensión</span>
+                    <h3 class="product-title">Discos de Freno Ventilados Fremax (Par Delantero)</h3>
+                    <div class="product-price">$ 54.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20Discos%20de%20Freno%20Fremax" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="motor">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Embrague">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Motor & Distribución</span>
+                    <h3 class="product-title">Kit de Embrague Luk / Sachs (Placa, Disco y Crapodina)</h3>
+                    <div class="product-price">$ 145.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20Kit%20de%20Embrague" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="electricidad">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Bobina Encendido">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Electricidad & Encendido</span>
+                    <h3 class="product-title">Bobina de Encendido Individual / Tipo Lápiz Delphi</h3>
+                    <div class="product-price">$ 29.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20Bobina%20Delphi" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="frenos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Parrilla Suspension">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Frenos & Suspensión</span>
+                    <h3 class="product-title">Parrilla de Suspensión Completa con Buje & Rótula</h3>
+                    <div class="product-price">$ 42.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20Parrilla%20de%20Suspesion" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="aceites">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Liquido Refrigerante">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Aceites & Filtros</span>
+                    <h3 class="product-title">Refrigerante / Anticongelante Orgánico Tir Concentrado</h3>
+                    <div class="product-price">$ 12.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Refrigerante%20Organico" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="motor">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Correa Poli V">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Motor & Distribución</span>
+                    <h3 class="product-title">Correa Poly-V de Accesorios Continental ContiTech</h3>
+                    <div class="product-price">$ 16.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20Correa%20Poly-V" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="frenos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Cremallera">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Frenos & Suspensión</span>
+                    <h3 class="product-title">Caja de Dirección / Cremallera Hidráulica Completa</h3>
+                    <div class="product-price">$ 180.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20Cremallera%20de%20Direccion" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="electricidad">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Optica">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Electricidad & Encendido</span>
+                    <h3 class="product-title">Lámparas LED CREE H7 Alta Potencia CANBUS 12V</h3>
+                    <div class="product-price">$ 24.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Lamparas%20LED%20H7" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Casas de Repuestos & Autopartes</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
