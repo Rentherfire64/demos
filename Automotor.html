@@ -15,19 +15,78 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
 
-        /* HEADER & HERO */
+        /* HEADER & NAVBAR */
         header {
             background: linear-gradient(rgba(11,15,23,0.85), rgba(11,15,23,0.95)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop') center/cover;
             padding: 20px 5% 80px 5%;
             text-align: center;
+            position: relative;
         }
 
-        nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 40px; }
-        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -1px; }
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 40px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -1px; text-decoration: none; }
         .logo span { color: var(--accent-red); }
-        .btn-contact { background: var(--accent-red); color: #fff; padding: 8px 18px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+
+        /* NAVEGACIÓN DESKTOP & MÓVIL */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-contact { 
+            background: var(--accent-red); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover {
+            background: #e02233;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+        }
 
         .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 10px; }
         .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px auto; }
@@ -43,19 +102,26 @@
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 10px;
             border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .search-box select, .search-box button {
             padding: 12px;
             border-radius: 8px;
-            border: none;
+            border: 1px solid rgba(255,255,255,0.1);
             outline: none;
             background: #0b0f17;
             color: #fff;
             font-weight: 600;
         }
 
-        .search-box button { background: var(--accent-red); cursor: pointer; transition: 0.3s; }
+        .search-box button { 
+            background: var(--accent-red); 
+            border: none;
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+
         .search-box button:hover { background: #e02233; }
 
         /* GRID DE VEHÍCULOS */
@@ -102,6 +168,36 @@
             font-weight: 700;
             border-radius: 8px;
             font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn-wa:hover {
+            background: #1eb855;
+        }
+
+        /* MEDIA QUERIES RESPONSIVE */
+        @media (max-width: 868px) {
+            .menu-toggle { display: block; }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #151c28;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
         }
 
         /* FOOTER DE MUESTRA */
@@ -112,10 +208,24 @@
 
     <header>
         <nav>
-            <div class="logo">MOTOR<span>DRIVE</span></div>
-            <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20un%20veh%C3%ADculo" target="_blank" class="btn-contact">
-                <i class="fab fa-whatsapp"></i> Contactar
-            </a>
+            <a href="#" class="logo">MOTOR<span>DRIVE</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#financiacion">Financiación</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20un%20veh%C3%ADculo" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Contactar
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
         </nav>
 
         <h1 class="hero-title">Encontrá tu próximo auto</h1>
@@ -129,269 +239,290 @@
         </div>
     </header>
 
-    <section>
+    <section id="catalogo">
         <h2 class="section-title"><i class="fas fa-fire"></i> Unidades Destacadas</h2>
         <div class="cars-grid">
-    <!-- 1. Toyota Hilux -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Toyota Hilux">
-        <div class="car-body">
-            <div class="car-price">U$S 32.500</div>
-            <div class="car-name">Toyota Hilux SRX 2.8 4x4</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2023</span>
-                <span><i class="fas fa-road"></i> 18.000 km</span>
-                <span><i class="fas fa-cog"></i> Automático</span>
+            <!-- 1. Toyota Hilux -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Toyota Hilux">
+                <div class="car-body">
+                    <div class="car-price">U$S 32.500</div>
+                    <div class="car-name">Toyota Hilux SRX 2.8 4x4</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2023</span>
+                        <span><i class="fas fa-road"></i> 18.000 km</span>
+                        <span><i class="fas fa-cog"></i> Automático</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Toyota%20Hilux%202023" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Toyota%20Hilux%202023" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 2. VW Vento -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=600&auto=format&fit=crop" class="car-img" alt="VW Vento">
-        <div class="car-body">
-            <div class="car-price">U$S 24.900</div>
-            <div class="car-name">Volkswagen Vento GLI 2.0 TSI</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2022</span>
-                <span><i class="fas fa-road"></i> 28.000 km</span>
-                <span><i class="fas fa-cog"></i> DSG</span>
+            <!-- 2. VW Vento -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=600&auto=format&fit=crop" class="car-img" alt="VW Vento">
+                <div class="car-body">
+                    <div class="car-price">U$S 24.900</div>
+                    <div class="car-name">Volkswagen Vento GLI 2.0 TSI</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2022</span>
+                        <span><i class="fas fa-road"></i> 28.000 km</span>
+                        <span><i class="fas fa-cog"></i> DSG</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20VW%20Vento%20GLI%202022" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20VW%20Vento%20GLI%202022" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 3. Ford Mustang -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Ford Mustang">
-        <div class="car-body">
-            <div class="car-price">U$S 58.000</div>
-            <div class="car-name">Ford Mustang GT 5.0 V8</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2021</span>
-                <span><i class="fas fa-road"></i> 12.500 km</span>
-                <span><i class="fas fa-cog"></i> Secuencial</span>
+            <!-- 3. Ford Mustang -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Ford Mustang">
+                <div class="car-body">
+                    <div class="car-price">U$S 58.000</div>
+                    <div class="car-name">Ford Mustang GT 5.0 V8</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2021</span>
+                        <span><i class="fas fa-road"></i> 12.500 km</span>
+                        <span><i class="fas fa-cog"></i> Secuencial</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Ford%20Mustang%20GT" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Ford%20Mustang%20GT" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 4. Peugeot 208 -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Peugeot 208">
-        <div class="car-body">
-            <div class="car-price">U$S 14.200</div>
-            <div class="car-name">Peugeot 208 Feline 1.6</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2023</span>
-                <span><i class="fas fa-road"></i> 15.000 km</span>
-                <span><i class="fas fa-cog"></i> Tiptronic</span>
+            <!-- 4. Peugeot 208 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Peugeot 208">
+                <div class="car-body">
+                    <div class="car-price">U$S 14.200</div>
+                    <div class="car-name">Peugeot 208 Feline 1.6</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2023</span>
+                        <span><i class="fas fa-road"></i> 15.000 km</span>
+                        <span><i class="fas fa-cog"></i> Tiptronic</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Peugeot%20208%20Feline" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Peugeot%20208%20Feline" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 5. Jeep Amarok / Bronco -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Jeep Renegade">
-        <div class="car-body">
-            <div class="car-price">U$S 19.800</div>
-            <div class="car-name">Jeep Renegade Trailhawk 4x4</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2022</span>
-                <span><i class="fas fa-road"></i> 34.000 km</span>
-                <span><i class="fas fa-cog"></i> Automático</span>
+            <!-- 5. Jeep Renegade -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Jeep Renegade">
+                <div class="car-body">
+                    <div class="car-price">U$S 19.800</div>
+                    <div class="car-name">Jeep Renegade Trailhawk 4x4</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2022</span>
+                        <span><i class="fas fa-road"></i> 34.000 km</span>
+                        <span><i class="fas fa-cog"></i> Automático</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Jeep%20Renegade" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Jeep%20Renegade" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 6. Chevrolet Amarok -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Chevrolet Camaro">
-        <div class="car-body">
-            <div class="car-price">U$S 42.000</div>
-            <div class="car-name">Chevrolet Camaro SS Coupe</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2020</span>
-                <span><i class="fas fa-road"></i> 22.000 km</span>
-                <span><i class="fas fa-cog"></i> Automático</span>
+            <!-- 6. Chevrolet Camaro -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Chevrolet Camaro">
+                <div class="car-body">
+                    <div class="car-price">U$S 42.000</div>
+                    <div class="car-name">Chevrolet Camaro SS Coupe</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2020</span>
+                        <span><i class="fas fa-road"></i> 22.000 km</span>
+                        <span><i class="fas fa-cog"></i> Automático</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Chevrolet%20Camaro" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Chevrolet%20Camaro" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 7. VW Amarok V6 -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=600&auto=format&fit=crop" class="car-img" alt="VW Amarok">
-        <div class="car-body">
-            <div class="car-price">U$S 35.800</div>
-            <div class="car-name">VW Amarok Extreme V6 258cv</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2023</span>
-                <span><i class="fas fa-road"></i> 25.000 km</span>
-                <span><i class="fas fa-cog"></i> Automatico 8va</span>
+            <!-- 7. VW Amarok V6 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=600&auto=format&fit=crop" class="car-img" alt="VW Amarok">
+                <div class="car-body">
+                    <div class="car-price">U$S 35.800</div>
+                    <div class="car-name">VW Amarok Extreme V6 258cv</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2023</span>
+                        <span><i class="fas fa-road"></i> 25.000 km</span>
+                        <span><i class="fas fa-cog"></i> Automatico 8va</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20VW%20Amarok%20V6" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20VW%20Amarok%20V6" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 8. Fiat Cronos -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Fiat Cronos">
-        <div class="car-body">
-            <div class="car-price">U$S 12.500</div>
-            <div class="car-name">Fiat Cronos Precision 1.8</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2022</span>
-                <span><i class="fas fa-road"></i> 40.000 km</span>
-                <span><i class="fas fa-cog"></i> Manual</span>
+            <!-- 8. Fiat Cronos -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Fiat Cronos">
+                <div class="car-body">
+                    <div class="car-price">U$S 12.500</div>
+                    <div class="car-name">Fiat Cronos Precision 1.8</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2022</span>
+                        <span><i class="fas fa-road"></i> 40.000 km</span>
+                        <span><i class="fas fa-cog"></i> Manual</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Fiat%20Cronos" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Fiat%20Cronos" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 9. Audi A4 -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Audi A4">
-        <div class="car-body">
-            <div class="car-price">U$S 38.000</div>
-            <div class="car-name">Audi A4 2.0 TFSI S-Line</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2021</span>
-                <span><i class="fas fa-road"></i> 31.000 km</span>
-                <span><i class="fas fa-cog"></i> S-Tronic</span>
+            <!-- 9. Audi A4 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Audi A4">
+                <div class="car-body">
+                    <div class="car-price">U$S 38.000</div>
+                    <div class="car-name">Audi A4 2.0 TFSI S-Line</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2021</span>
+                        <span><i class="fas fa-road"></i> 31.000 km</span>
+                        <span><i class="fas fa-cog"></i> S-Tronic</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Audi%20A4" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Audi%20A4" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 10. BMW Serie 3 -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=600&auto=format&fit=crop" class="car-img" alt="BMW Serie 3">
-        <div class="car-body">
-            <div class="car-price">U$S 45.000</div>
-            <div class="car-name">BMW 330i M Sport 2.0T</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2022</span>
-                <span><i class="fas fa-road"></i> 19.000 km</span>
-                <span><i class="fas fa-cog"></i> Automático</span>
+            <!-- 10. BMW Serie 3 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=600&auto=format&fit=crop" class="car-img" alt="BMW Serie 3">
+                <div class="car-body">
+                    <div class="car-price">U$S 45.000</div>
+                    <div class="car-name">BMW 330i M Sport 2.0T</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2022</span>
+                        <span><i class="fas fa-road"></i> 19.000 km</span>
+                        <span><i class="fas fa-cog"></i> Automático</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20BMW%20330i" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20BMW%20330i" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 11. Toyota Corolla Cross -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Corolla Cross">
-        <div class="car-body">
-            <div class="car-price">U$S 27.500</div>
-            <div class="car-name">Toyota Corolla Cross 1.8 Hybrid</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2023</span>
-                <span><i class="fas fa-road"></i> 14.000 km</span>
-                <span><i class="fas fa-cog"></i> e-CVT</span>
+            <!-- 11. Toyota Corolla Cross -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Corolla Cross">
+                <div class="car-body">
+                    <div class="car-price">U$S 27.500</div>
+                    <div class="car-name">Toyota Corolla Cross 1.8 Hybrid</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2023</span>
+                        <span><i class="fas fa-road"></i> 14.000 km</span>
+                        <span><i class="fas fa-cog"></i> e-CVT</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Corolla%20Cross%20Hybrid" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Corolla%20Cross%20Hybrid" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 12. Ford Ranger Raptor -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Ranger Raptor">
-        <div class="car-body">
-            <div class="car-price">U$S 52.000</div>
-            <div class="car-name">Ford Ranger Raptor 3.0 V6</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2024</span>
-                <span><i class="fas fa-road"></i> 8.000 km</span>
-                <span><i class="fas fa-cog"></i> Automatico 10ma</span>
+            <!-- 12. Ford Ranger Raptor -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Ranger Raptor">
+                <div class="car-body">
+                    <div class="car-price">U$S 52.000</div>
+                    <div class="car-name">Ford Ranger Raptor 3.0 V6</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2024</span>
+                        <span><i class="fas fa-road"></i> 8.000 km</span>
+                        <span><i class="fas fa-cog"></i> Automatico 10ma</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Ford%20Raptor" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Ford%20Raptor" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 13. Mercedes-Benz A200 -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Mercedes A200">
-        <div class="car-body">
-            <div class="car-price">U$S 36.500</div>
-            <div class="car-name">Mercedes-Benz A200 AMG Line</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2021</span>
-                <span><i class="fas fa-road"></i> 27.000 km</span>
-                <span><i class="fas fa-cog"></i> 7G-DCT</span>
+            <!-- 13. Mercedes-Benz A200 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Mercedes A200">
+                <div class="car-body">
+                    <div class="car-price">U$S 36.500</div>
+                    <div class="car-name">Mercedes-Benz A200 AMG Line</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2021</span>
+                        <span><i class="fas fa-road"></i> 27.000 km</span>
+                        <span><i class="fas fa-cog"></i> 7G-DCT</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Mercedes%20A200" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Mercedes%20A200" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 14. Nissan Frontier -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Nissan Frontier">
-        <div class="car-body">
-            <div class="car-price">U$S 29.800</div>
-            <div class="car-name">Nissan Frontier PRO-4X 4x4</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2022</span>
-                <span><i class="fas fa-road"></i> 38.000 km</span>
-                <span><i class="fas fa-cog"></i> Automático</span>
+            <!-- 14. Nissan Frontier -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Nissan Frontier">
+                <div class="car-body">
+                    <div class="car-price">U$S 29.800</div>
+                    <div class="car-name">Nissan Frontier PRO-4X 4x4</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2022</span>
+                        <span><i class="fas fa-road"></i> 38.000 km</span>
+                        <span><i class="fas fa-cog"></i> Automático</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Nissan%20Frontier" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Nissan%20Frontier" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
-        </div>
-    </div>
 
-    <!-- 15. Honda Civic -->
-    <div class="car-card">
-        <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Honda Civic">
-        <div class="car-body">
-            <div class="car-price">U$S 21.000</div>
-            <div class="car-name">Honda Civic EX-L 1.5 Turbo</div>
-            <div class="car-features">
-                <span><i class="fas fa-calendar"></i> 2020</span>
-                <span><i class="fas fa-road"></i> 48.000 km</span>
-                <span><i class="fas fa-cog"></i> CVT</span>
+            <!-- 15. Honda Civic -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=600&auto=format&fit=crop" class="car-img" alt="Honda Civic">
+                <div class="car-body">
+                    <div class="car-price">U$S 21.000</div>
+                    <div class="car-name">Honda Civic EX-L 1.5 Turbo</div>
+                    <div class="car-features">
+                        <span><i class="fas fa-calendar"></i> 2020</span>
+                        <span><i class="fas fa-road"></i> 48.000 km</span>
+                        <span><i class="fas fa-cog"></i> CVT</span>
+                    </div>
+                    <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Honda%20Civic" target="_blank" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-            <a href="https://wa.me/5492204152124?text=Consulta%20por:%20Honda%20Civic" target="_blank" class="btn-wa">
-                <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-            </a>
         </div>
-    </div>
-</div>
     </section>
 
     <footer>
         <p>Demo interactiva creada por <strong>LADevHosting</strong> — Diseño & Desarrollo Web Pro</p>
     </footer>
 
+    <!-- SCRIPT MENÚ MÓVIL -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Cierra el menú móvil al tocar un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+    </script>
 </body>
 </html>
