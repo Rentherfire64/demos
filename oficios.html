@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ServiExpress | Servicios del Hogar & Reparaciones</title>
+    <meta name="description" content="Plomería, electricidad, cerrajería y aire acondicionado. Atención de urgencias las 24 horas. Presupuestos sin cargo.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --accent-orange: #f97316;
+            --accent-yellow: #eab308;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+
+        /* HEADER & HERO */
+        header {
+            background: linear-gradient(180deg, rgba(249, 115, 22, 0.15) 0%, rgba(15, 23, 42, 1) 100%);
+            padding: 90px 5% 50px;
+            text-align: center;
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+        }
+        .badge { background: var(--accent-orange); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); margin: 15px 0; font-weight: 900; background: linear-gradient(to right, #fb923c, #f97316, #eab308); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.hero-desc { color: var(--text-gray); max-width: 650px; margin: 0 auto 30px; font-size: 1.05rem; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 800; color: #fff; }
+
+        /* SERVICIOS GRID */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .service-card:hover { transform: translateY(-8px); border-color: var(--accent-orange); box-shadow: 0 10px 30px rgba(249, 115, 22, 0.15); }
+        .service-card i { font-size: 2.5rem; color: var(--accent-orange); margin-bottom: 15px; }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .service-card p { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px; }
+
+        /* MÓDULO DE SOLICITUD DE PRESUPUESTO */
+        .quote-box {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid var(--accent-orange);
+            border-radius: 24px;
+            padding: 35px 25px;
+            max-width: 700px;
+            margin: 50px auto;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-gray); font-size: 0.9rem; font-weight: 600; }
+        .form-group select, .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .form-group select:focus, .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-orange); }
+
+        /* BOTONES */
+        .btn-orange {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn-orange:hover { opacity: 0.9; transform: scale(1.02); }
+
+        footer { text-align: center; padding: 40px 5%; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-gray); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge"><i class="fas fa-wrench"></i> Asistencia & Mantenimiento</span>
+        <h1>ServiExpress Oficial</h1>
+        <p class="hero-desc">Soluciones rápidas y garantizadas para tu hogar o comercio. Electricidad, plomería, aire acondicionado y cerrajería con atención las 24 horas.</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Especialidades & Servicios</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-bolt"></i>
+                    <h3>Electricidad Matriculada</h3>
+                    <p>Cortocircuitos, instalación de artefactos, arreglos de tableros, térmicas y recableados integrales.</p>
+                </div>
+                <button class="btn-orange" onclick="seleccionarRubro('Electricidad Matriculada')">Pedir Presupuesto</button>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-faucet"></i>
+                    <h3>Plomería & Gas</h3>
+                    <p>Reparación de pérdidas, destapaciones, instalación de termotanques, griferías y bombas de agua.</p>
+                </div>
+                <button class="btn-orange" onclick="seleccionarRubro('Plomería & Gas')">Pedir Presupuesto</button>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-snowflake"></i>
+                    <h3>Aire Acondicionado</h3>
+                    <p>Instalaciones, carga de gas refrigerante, mantenimiento preventivo y limpieza de filtros.</p>
+                </div>
+                <button class="btn-orange" onclick="seleccionarRubro('Aire Acondicionado')">Pedir Presupuesto</button>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-key"></i>
+                    <h3>Cerrajería 24 Horas</h3>
+                    <p>Apertura de puertas, cambio de combinaciones, cerraduras de seguridad y urgencias a domicilio.</p>
+                </div>
+                <button class="btn-orange" onclick="seleccionarRubro('Cerrajería 24hs')">Pedir Presupuesto</button>
+            </div>
+        </div>
+
+        <!-- MÓDULO DE SOLICITUD DE PRESUPUESTO EXPRESS -->
+        <div class="quote-box" id="presupuesto">
+            <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Solicitá tu Presupuesto Express</h2>
+            <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 25px;">Detallá el problema o trabajo a realizar para enviarte un estimado por WhatsApp:</p>
+            
+            <div class="form-group">
+                <label>Rubro Requerido</label>
+                <select id="select-rubro">
+                    <option value="Electricidad Matriculada">Electricidad</option>
+                    <option value="Plomería & Gas">Plomería / Gas</option>
+                    <option value="Aire Acondicionado">Climatización / Aire Acondicionado</option>
+                    <option value="Cerrajería 24hs">Cerrajería de Urgencia</option>
+                    <option value="Mantenimiento General">Mantenimiento General del Hogar</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nivel de Urgencia</label>
+                <select id="select-urgencia">
+                    <option value="Normal (Coordinar esta semana)">Normal (Coordinar en la semana)</option>
+                    <option value="Alta (Dentro de las 24hs)">Alta (Coordinar hoy/mañana)</option>
+                    <option value="URGENCIA YA (Atención Inmediata 24/7)">🚨 URGENCIA YA (Visita inmediata)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ubicación / Barrio</label>
+                <input type="text" id="input-barrio" placeholder="Ej: Morón, San Justo, Ramos Mejía, etc." required>
+            </div>
+
+            <div class="form-group">
+                <label>Detalle del arreglo o falla</label>
+                <textarea id="input-detalle" rows="3" placeholder="Ej: Salta la térmica cuando prendo el horno / Pierde agua el termotanque..."></textarea>
+            </div>
+
+            <button class="btn-orange" onclick="enviarPresupuestoWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar Consulta por WhatsApp</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 ServiExpress | Plantilla Demo por LADevHosting</p>
+    </footer>
+
+    <script>
+        function seleccionarRubro(rubro) {
+            const selectRubro = document.getElementById('select-rubro');
+            selectRubro.value = rubro;
+            document.getElementById('presupuesto').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function enviarPresupuestoWhatsApp() {
+            const rubro = document.getElementById('select-rubro').value;
+            const urgencia = document.getElementById('select-urgencia').value;
+            const barrio = document.getElementById('input-barrio').value;
+            const detalle = document.getElementById('input-detalle').value;
+
+            if (!barrio.trim()) {
+                alert("Por favor indicá tu ubicación o barrio.");
+                return;
+            }
+
+            const msg = `Hola! Quisiera solicitar un presupuesto de asistencia:\n\n🛠️ *Rubro:* ${rubro}\n🚨 *Urgencia:* ${urgencia}\n📍 *Zona:* ${barrio}\n📝 *Detalle:* ${detalle || 'Sin detalle previo'}\n\n¿Tienen disponibilidad técnica?`;
+            window.open(`https://wa.me/5492204152124?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
