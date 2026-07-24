@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Studio Nails & Beauty | Demo Interactivas</title>
+    <meta name="description" content="Especialistas en Kapping, Esculpidas, Nail Art y Cuidado de Uñas. Reservá tu turno online.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0f0b15;
+            --bg-card: rgba(26, 18, 38, 0.6);
+            --accent-pink: #f43f5e;
+            --accent-glow: #ec4899;
+            --text-light: #f8fafc;
+            --text-gray: #a1a1aa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+
+        /* HEADER & HERO */
+        header {
+            background: linear-gradient(180deg, rgba(244, 63, 94, 0.15) 0%, rgba(15, 11, 21, 1) 100%);
+            padding: 90px 5% 50px;
+            text-align: center;
+            border-bottom: 1px solid rgba(244, 63, 94, 0.2);
+        }
+        .badge { background: var(--accent-pink); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); margin: 15px 0; font-weight: 900; background: linear-gradient(to right, #f43f5e, #fb7185, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.hero-desc { color: var(--text-gray); max-width: 600px; margin: 0 auto 30px; font-size: 1.05rem; }
+
+        /* BANNERS / CARDS */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 800; color: #fff; }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .service-card:hover { transform: translateY(-8px); border-color: var(--accent-pink); box-shadow: 0 10px 30px rgba(244, 63, 94, 0.15); }
+        .service-card i { font-size: 2.5rem; color: var(--accent-pink); margin-bottom: 15px; }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .service-card p { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 15px; }
+        .price { font-size: 1.5rem; font-weight: 900; color: var(--accent-glow); margin-bottom: 15px; }
+
+        /* COTIZADOR / SIMULADOR INTERACTIVO */
+        .calculator-box {
+            background: rgba(26, 18, 38, 0.8);
+            border: 1px solid var(--accent-pink);
+            border-radius: 24px;
+            padding: 35px 25px;
+            max-width: 700px;
+            margin: 50px auto;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .calc-options { display: flex; flex-direction: column; gap: 15px; text-align: left; margin: 25px 0; }
+        .calc-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 11, 21, 0.6);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        .calc-option input { width: 20px; height: 20px; accent-color: var(--accent-pink); cursor: pointer; }
+
+        /* GALERÍA DE MUESTRA */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 30px; }
+        .gallery-item {
+            aspect-ratio: 1/1;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* BOTONES */
+        .btn-pink {
+            background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn-pink:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 40px 5%; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-gray); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge"><i class="fas fa-gem"></i> Estética & Nail Art</span>
+        <h1>Studio Nails Professional</h1>
+        <p class="hero-desc">Diseños exclusivos, Kapping Gel, Soft Gel y la mejor atención para tus manos. Elegí tu servicio y agendá tu turno online.</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Servicios Destacados</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-hand-sparkles"></i>
+                <h3>Semipermanente</h3>
+                <p>Esmaltado de larga duración con limpieza de cutículas y nivelación incluida.</p>
+                <div class="price">$12.000</div>
+                <button class="btn-pink" onclick="agendarServicio('Semipermanente', 12000)">Agendar Turno</button>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-magic"></i>
+                <h3>Kapping Gel</h3>
+                <p>Capa protectora de gel sobre tu uña natural para fortalecer y prevenir roturas.</p>
+                <div class="price">$16.000</div>
+                <button class="btn-pink" onclick="agendarServicio('Kapping Gel', 16000)">Agendar Turno</button>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-crown"></i>
+                <h3>Soft Gel / Esculpidas</h3>
+                <p>Extensión de uñas con tips gelificados ultraligeros y acabado 100% natural.</p>
+                <div class="price">$20.000</div>
+                <button class="btn-pink" onclick="agendarServicio('Soft Gel', 20000)">Agendar Turno</button>
+            </div>
+        </div>
+
+        <!-- SIMULADOR INTERACTIVO DE COTIZACIÓN -->
+        <div class="calculator-box">
+            <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Simulador de Presupuesto</h2>
+            <p style="color: var(--text-gray); font-size: 0.9rem;">Seleccioná lo que querés realizarte para calcular el valor aproximado:</p>
+            
+            <div class="calc-options">
+                <label class="calc-option">
+                    <span><input type="checkbox" class="item-calc" value="16000" data-name="Kapping Base"> Kapping / Base Rubber</span>
+                    <strong>$16.000</strong>
+                </label>
+                <label class="calc-option">
+                    <span><input type="checkbox" class="item-calc" value="4000" data-name="Nail Art Simple (Mano alzada/Stickers)"> Nail Art Simple (x10)</span>
+                    <strong>+$4.000</strong>
+                </label>
+                <label class="calc-option">
+                    <span><input type="checkbox" class="item-calc" value="7000" data-name="Nail Art Pro (Cristales/3D/Efectos)"> Nail Art Avanzado / 3D</span>
+                    <strong>+$7.000</strong>
+                </label>
+                <label class="calc-option">
+                    <span><input type="checkbox" class="item-calc" value="5000" data-name="Retirado de set anterior"> Retirado de set anterior</span>
+                    <strong>+$5.000</strong>
+                </label>
+            </div>
+
+            <div style="font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; color: var(--accent-glow);">
+                Total Estimado: <span id="total-price">$0</span>
+            </div>
+
+            <button class="btn-pink" onclick="enviarCotizacionWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar Consulta de Turno por WhatsApp</button>
+        </div>
+
+        <!-- GALERÍA DE MUESTRAS DE NAIL ART -->
+        <h2 class="section-title">Galería de Diseños</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=400&q=80" alt="Nail Art 1"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=400&q=80" alt="Nail Art 2"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=400&q=80" alt="Nail Art 3"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=400&q=80" alt="Nail Art 4"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Studio Nails | Plantilla Demo por LADevHosting</p>
+    </footer>
+
+    <script>
+        // LÓGICA DEL CALCULADOR / SIMULADOR
+        const checkboxes = document.querySelectorAll('.item-calc');
+        const totalPriceEl = document.getElementById('total-price');
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', calcularTotal);
+        });
+
+        function calcularTotal() {
+            let total = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    total += parseInt(cb.value);
+                }
+            });
+            totalPriceEl.innerText = "$" + total.toLocaleString('es-AR');
+        }
+
+        // AGENDAR SERVICIO INDIVIDUAL
+        function agendarServicio(servicio, precio) {
+            const msg = `Hola! Quisiera solicitar un turno para *${servicio}* ($${precio.toLocaleString('es-AR')}). ¿Qué días y horarios tenés disponibles?`;
+            window.open(`https://wa.me/5492204152124?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // ENVIAR COTIZACIÓN SELECCIONADA POR WHATSAPP
+        function enviarCotizacionWhatsApp() {
+            let seleccionados = [];
+            let total = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    seleccionados.push(cb.getAttribute('data-name'));
+                    total += parseInt(cb.value);
+                }
+            });
+
+            if (seleccionados.length === 0) {
+                alert("Por favor elegí al menos un servicio para consultar.");
+                return;
+            }
+
+            const msg = `Hola! Hice una cotización en la web con los siguientes servicios:\n\n✨ *Servicios:* ${seleccionados.join(', ')}\n💰 *Estimado:* $${total.toLocaleString('es-AR')}\n\n¿Tenés disponibilidad para esta semana?`;
+            window.open(`https://wa.me/5492204152124?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
