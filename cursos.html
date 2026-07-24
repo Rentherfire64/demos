@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Academia EduPro | Cursos y Capacitaciones</title>
+    <meta name="description" content="Aprende nuevas habilidades con nuestros cursos 100% online y presenciales. Certificados oficiales.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0b1329;
+            --bg-card: rgba(23, 37, 72, 0.6);
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+
+        /* HEADER & HERO */
+        header {
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.15) 0%, rgba(11, 19, 41, 1) 100%);
+            padding: 90px 5% 50px;
+            text-align: center;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .badge { background: var(--accent-blue); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); margin: 15px 0; font-weight: 900; background: linear-gradient(to right, #60a5fa, #3b82f6, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.hero-desc { color: var(--text-gray); max-width: 650px; margin: 0 auto 30px; font-size: 1.05rem; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 800; color: #fff; }
+
+        /* CURSOS GRID */
+        .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .course-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        .course-card:hover { transform: translateY(-8px); border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.15); }
+        
+        .course-header {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .course-header i { font-size: 2.8rem; color: var(--accent-cyan); margin-bottom: 10px; }
+        
+        .course-body { padding: 25px 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .course-body h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .course-body p { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px; }
+
+        .course-meta { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 20px; font-weight: 600; }
+        .price { font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 15px; text-align: center; }
+
+        /* SIMULADOR DE INSCRIPCIÓN */
+        .enroll-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--accent-blue);
+            border-radius: 24px;
+            padding: 35px 25px;
+            max-width: 700px;
+            margin: 50px auto;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-gray); font-size: 0.9rem; font-weight: 600; }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(11, 19, 41, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .form-group select:focus, .form-group input:focus { border-color: var(--accent-cyan); }
+
+        /* BOTONES */
+        .btn-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn-blue:hover { opacity: 0.9; transform: scale(1.02); }
+
+        footer { text-align: center; padding: 40px 5%; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-gray); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge"><i class="fas fa-graduation-cap"></i> Formación Profesional</span>
+        <h1>Academia EduPro Online</h1>
+        <p class="hero-desc">Capacitate en los rubros con mayor salida laboral. Clases en vivo, acceso grabado de por vida y certificado de aprobación.</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Cursos Destacados</h2>
+        
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-header">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="course-body">
+                    <div>
+                        <h3>Programación Web Fullstack</h3>
+                        <p>Aprende HTML, CSS, JavaScript, React y Node.js desde cero hasta crear proyectos reales.</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> 4 Meses</span>
+                            <span><i class="fas fa-video"></i> En Vivo / Grabado</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price">$35.000 / mes</div>
+                        <button class="btn-blue" onclick="seleccionarCurso('Programación Web Fullstack', 35000)">Inscribirme Ahora</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="course-body">
+                    <div>
+                        <h3>Marketing Digital & Ads</h3>
+                        <p>Domina Meta Ads, Google Ads, embudos de venta y gestión de redes sociales para negocios.</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> 2 Meses</span>
+                            <span><i class="fas fa-video"></i> 100% Online</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price">$28.000 / mes</div>
+                        <button class="btn-blue" onclick="seleccionarCurso('Marketing Digital & Ads', 28000)">Inscribirme Ahora</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="course-body">
+                    <div>
+                        <h3>Diseño UX/UI & Figma</h3>
+                        <p>Diseña interfaces modernas, prototipos interactivos y experiencias de usuario profesionales.</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> 3 Meses</span>
+                            <span><i class="fas fa-video"></i> Mentoría Semanal</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price">$30.000 / mes</div>
+                        <button class="btn-blue" onclick="seleccionarCurso('Diseño UX/UI & Figma', 30000)">Inscribirme Ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO DE INSCRIPCIÓN / CONSULTA -->
+        <div class="enroll-box" id="inscripcion">
+            <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Consulta de Inscripción</h2>
+            <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 25px;">Seleccioná el programa que querés cursar para recibir el temario e información de pago:</p>
+            
+            <div class="form-group">
+                <label>Curso Seleccionado</label>
+                <select id="select-curso">
+                    <option value="Programación Web Fullstack - $35.000/mes">Programación Web Fullstack ($35.000/mes)</option>
+                    <option value="Marketing Digital & Ads - $28.000/mes">Marketing Digital & Ads ($28.000/mes)</option>
+                    <option value="Diseño UX/UI & Figma - $30.000/mes">Diseño UX/UI & Figma ($30.000/mes)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Modalidad Preferida</label>
+                <select id="select-modalidad">
+                    <option value="Clases en Vivo por Zoom">Clases en Vivo por Zoom</option>
+                    <option value="A tu ritmo (Acceso Grabado)">A tu ritmo (Acceso Grabado - 15% Desc)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tu Nombre Completo</label>
+                <input type="text" id="input-nombre" placeholder="Ej: Maria Gonzalez" required>
+            </div>
+
+            <button class="btn-blue" onclick="enviarInscripcionWhatsApp()"><i class="fab fa-whatsapp"></i> Solicitar Información por WhatsApp</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Academia EduPro | Plantilla Demo por LADevHosting</p>
+    </footer>
+
+    <script>
+        function seleccionarCurso(nombre, precio) {
+            const selectCurso = document.getElementById('select-curso');
+            selectCurso.value = `${nombre} - $${precio.toLocaleString('es-AR')}/mes`;
+            document.getElementById('inscripcion').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function enviarInscripcionWhatsApp() {
+            const curso = document.getElementById('select-curso').value;
+            const modalidad = document.getElementById('select-modalidad').value;
+            const nombre = document.getElementById('input-nombre').value;
+
+            if (!nombre.trim()) {
+                alert("Por favor ingresá tu nombre.");
+                return;
+            }
+
+            const msg = `Hola! Mi nombre es *${nombre}* y quisiera recibir el temario e información de pago para:\n\n📚 *Curso:* ${curso}\n🎓 *Modalidad:* ${modalidad}\n\n¿Cuáles son las próximas fechas de inicio?`;
+            window.open(`https://wa.me/5492204152124?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
