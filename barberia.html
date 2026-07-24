@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Barber Shop Pro | Demo Interactiva</title>
+    <meta name="description" content="Cortes urbanos, perfilado de barba, arreglo de tijera y barbería tradicional. Agendá tu turno online.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --bg-card: rgba(22, 22, 26, 0.7);
+            --accent-gold: #d97706;
+            --accent-light: #f59e0b;
+            --text-light: #f8fafc;
+            --text-gray: #a1a1aa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+
+        /* HEADER & HERO */
+        header {
+            background: linear-gradient(180deg, rgba(217, 119, 6, 0.15) 0%, rgba(10, 10, 12, 1) 100%);
+            padding: 90px 5% 50px;
+            text-align: center;
+            border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+        }
+        .badge { background: var(--accent-gold); color: #000; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); margin: 15px 0; font-weight: 900; background: linear-gradient(to right, #d97706, #f59e0b, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.hero-desc { color: var(--text-gray); max-width: 600px; margin: 0 auto 30px; font-size: 1.05rem; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 800; color: #fff; }
+
+        /* SERVICIOS */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .service-card:hover { transform: translateY(-8px); border-color: var(--accent-gold); box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15); }
+        .service-card i { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 15px; }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .service-card p { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 15px; }
+        .price { font-size: 1.5rem; font-weight: 900; color: var(--accent-light); margin-bottom: 15px; }
+
+        /* MÓDULO DE RESERVAS */
+        .booking-box {
+            background: rgba(22, 22, 26, 0.8);
+            border: 1px solid var(--accent-gold);
+            border-radius: 24px;
+            padding: 35px 25px;
+            max-width: 700px;
+            margin: 50px auto;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-gray); font-size: 0.9rem; font-weight: 600; }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(10, 10, 12, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .form-group select:focus, .form-group input:focus { border-color: var(--accent-gold); }
+
+        /* GALERÍA */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 30px; }
+        .gallery-item { aspect-ratio: 1/1; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* BOTONES */
+        .btn-gold {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn-gold:hover { opacity: 0.9; transform: scale(1.02); }
+
+        footer { text-align: center; padding: 40px 5%; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-gray); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge"><i class="fas fa-cut"></i> Barbería & Hair Styling</span>
+        <h1>The Barber Club</h1>
+        <p class="hero-desc">Estilo urbano, cortes de vanguardia y perfilado tradicional. Elegí tu servicio, seleccioná a tu barber favorito y agendá tu turno online.</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Servicios Populares</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-cut"></i>
+                <h3>Corte de Cabello</h3>
+                <p>Fade, degradados, cortes clásicos o modernos con lavado y peinado final.</p>
+                <div class="price">$10.000</div>
+                <button class="btn-gold" onclick="seleccionarServicio('Corte de Cabello', 10000)">Reservar Turno</button>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-user-ninja"></i>
+                <h3>Perfilado de Barba</h3>
+                <p>Diseño, rebajado, toalla caliente y alineación con navaja tradicional.</p>
+                <div class="price">$7.000</div>
+                <button class="btn-gold" onclick="seleccionarServicio('Perfilado de Barba', 7000)">Reservar Turno</button>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-crown"></i>
+                <h3>Combo VIP</h3>
+                <p>Corte + Barba completa + Exfoliación facial + Bebida de cortesía.</p>
+                <div class="price">$15.000</div>
+                <button class="btn-gold" onclick="seleccionarServicio('Combo VIP', 15000)">Reservar Turno</button>
+            </div>
+        </div>
+
+        <!-- MÓDULO INTERACTIVO DE RESERVA DE TURNO -->
+        <div class="booking-box" id="reserva">
+            <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Agendá tu Turno</h2>
+            <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 25px;">Completá los datos para coordinar horario por WhatsApp:</p>
+            
+            <div class="form-group">
+                <label>Servicio Elegido</label>
+                <select id="select-servicio">
+                    <option value="Corte de Cabello - $10.000">Corte de Cabello ($10.000)</option>
+                    <option value="Perfilado de Barba - $7.000">Perfilado de Barba ($7.000)</option>
+                    <option value="Combo VIP - $15.000">Combo VIP ($15.000)</option>
+                    <option value="Corte + Color - $18.000">Corte + Color ($18.000)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Seleccionar Barber</label>
+                <select id="select-barber">
+                    <option value="Cualquiera disponible">Cualquiera disponible</option>
+                    <option value="Franco (Master Barber)">Franco (Master Barber)</option>
+                    <option value="Lucas (Especialista Fade)">Lucas (Especialista Fade)</option>
+                    <option value="Mateo (Barba & Navaja)">Mateo (Barba & Navaja)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Día y Horario Preferido</label>
+                <input type="text" id="input-horario" placeholder="Ej: Hoy a las 18:00 hs / Mañana por la tarde" required>
+            </div>
+
+            <button class="btn-gold" onclick="enviarTurnoWhatsApp()"><i class="fab fa-whatsapp"></i> Confirmar Turno por WhatsApp</button>
+        </div>
+
+        <!-- GALERÍA DE TRABAJOS -->
+        <h2 class="section-title">Galería de Cortes</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=400&q=80" alt="Corte 1"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=400&q=80" alt="Corte 2"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=400&q=80" alt="Corte 3"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1534294228306-bd54eb9a7ba8?auto=format&fit=crop&w=400&q=80" alt="Corte 4"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 The Barber Club | Plantilla Demo por LADevHosting</p>
+    </footer>
+
+    <script>
+        function seleccionarServicio(nombre, precio) {
+            const selectServ = document.getElementById('select-servicio');
+            selectServ.value = `${nombre} - $${precio.toLocaleString('es-AR')}`;
+            document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function enviarTurnoWhatsApp() {
+            const servicio = document.getElementById('select-servicio').value;
+            const barber = document.getElementById('select-barber').value;
+            const horario = document.getElementById('input-horario').value;
+
+            if (!horario.trim()) {
+                alert("Por favor ingresá un día y horario de preferencia.");
+                return;
+            }
+
+            const msg = `Hola! Quisiera agendar un turno para la barbería:\n\n✂️ *Servicio:* ${servicio}\n💈 *Barber:* ${barber}\n🕒 *Preferencia:* ${horario}\n\n¿Tienen disponibilidad?`;
+            window.open(`https://wa.me/5492204152124?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
