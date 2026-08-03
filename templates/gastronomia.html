@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bistró & Bar | Menú Gourmet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0f0f11;
+            --bg-card: #18181c;
+            --accent-gold: #d97706; /* Amber Gold */
+            --accent-red: #dc2626;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(15,15,17,0.85), rgba(15,15,17,0.96)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; font-style: italic; }
+        .logo i { color: var(--accent-gold); }
+        .logo span { color: var(--accent-gold); font-style: normal; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-gold); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #b45309; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 10px; font-family: Georgia, serif; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0f0f11;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0f0f11;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-gold);
+            color: #fff;
+            border-color: var(--accent-gold);
+        }
+
+        /* GRID DE PRODUCTOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-gold); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-gold);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-gold); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+        .product-desc { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #18181c;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-utensils"></i> BELLA <span>VISTA</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20una%20mesa%20o%20hacer%20un%20pedido" target="_blank" class="btn-contact">
+                    <i class="far fa-calendar-alt"></i> Reservar Mesa
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">SABORES QUE ENAMORAN</h1>
+        <p class="hero-subtitle">Cocina de autor, ingredientes seleccionados y la mejor coctelería en un ambiente único. Hacé tu pedido para delivery o reservá tu mesa.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar hamburguesa, pasta, provoleta, tiramisú, gin tonic, vino...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('entradas')">Entradas</button>
+                <button class="filter-btn" onclick="filterCategory('principales')">Platos Principales</button>
+                <button class="filter-btn" onclick="filterCategory('postres')">Postres</button>
+                <button class="filter-btn" onclick="filterCategory('bebidas')">Bebidas & Cócteles</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="menu">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="entradas">
+                <div class="product-img-box">
+                    <span class="product-badge">Recomendado</span>
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Provoleta">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Entradas</span>
+                    <h3 class="product-title">Provoleta Ahumada al Hierro</h3>
+                    <p class="product-desc">Queso provolone fundido con tomates secos, orégano fresco y un toque de chimichurri de la casa.</p>
+                    <div class="product-price">$ 8.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20la%20Provoleta%20Ahumada" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="principales">
+                <div class="product-img-box">
+                    <span class="product-badge">Especialidad</span>
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Ojo de Bife">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Platos Principales</span>
+                    <h3 class="product-title">Ojo de Bife con Papas Rústicas (400g)</h3>
+                    <p class="product-desc">Corte madurado a las brasas servido con manteca de hierbas y papas crujientes al romero.</p>
+                    <div class="product-price">$ 18.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Ojo%20de%20Bife" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="principales">
+                <div class="product-img-box">
+                    <span class="product-badge">Top Ventas</span>
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Hamburguesa Gourmet">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Platos Principales</span>
+                    <h3 class="product-title">Hamburguesa Trufada Bella Vista</h3>
+                    <p class="product-desc">Doble medalla de carne smash, queso cheddar madurado, panceta crocante y mayonesa de trufa.</p>
+                    <div class="product-price">$ 12.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20la%20Hamburguesa%20Trufada" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="principales">
+                <div class="product-img-box">
+                    <span class="product-badge">Artesanal</span>
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pastas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Platos Principales</span>
+                    <h3 class="product-title">Sorrentinos de Cordero a la Malbec</h3>
+                    <p class="product-desc">Pasta casera rellena de cordero braseado suavemente con reducción de vino Malbec y salvia.</p>
+                    <div class="product-price">$ 14.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Sorrentinos%20de%20Cordero" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="entradas">
+                <div class="product-img-box">
+                    <span class="product-badge">Para Compartir</span>
+                    <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Rabas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Entradas</span>
+                    <h3 class="product-title">Rabas Crujientes con Alioli de Limón</h3>
+                    <p class="product-desc">Anillos de calamar rebozados dorados y crocantes, acompañados de alioli de ajo asado.</p>
+                    <div class="product-price">$ 11.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20una%20porcion%20de%20Rabas" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-img-box">
+                    <span class="product-badge">Trago de Autor</span>
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Gin Tonic">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Bebidas & Cócteles</span>
+                    <h3 class="product-title">Gin Tonic Patagónico con Frutos Rojos</h3>
+                    <p class="product-desc">Gin nacional botánico, agua tónica premium, frutos rojos macerados y romero fresco.</p>
+                    <div class="product-price">$ 6.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Gin%20Tonic%20Patagonico" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="postres">
+                <div class="product-img-box">
+                    <span class="product-badge">Clásico</span>
+                    <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Tiramisu">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Postres</span>
+                    <h3 class="product-title">Tiramisú Tradicional Italiano</h3>
+                    <p class="product-desc">Vainillas embebidas en café expresso, mascarpone suave y espolvoreado con cacao amargo.</p>
+                    <div class="product-price">$ 5.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Tiramisu" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="principales">
+                <div class="product-img-box">
+                    <span class="product-badge">Opción Veggie</span>
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Risotto de Hongos">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Platos Principales</span>
+                    <h3 class="product-title">Risotto Cremoso de Hongos & Trufa</h3>
+                    <p class="product-desc">Arroz carnaroli cocido en caldo de vegetales, variedad de hongos portobello y aceite de trufa.</p>
+                    <div class="product-price">$ 13.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Risotto%20de%20Hongos" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Vino Malbec">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Bebidas & Cócteles</span>
+                    <h3 class="product-title">Vino Malbec Gran Reserva 750ml (Mendoza)</h3>
+                    <p class="product-desc">Cuerpo estructurado, notas a ciruela madura, vainilla y paso de 12 meses por barrica de roble.</p>
+                    <div class="product-price">$ 14.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Vino%20Malbec" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="entradas">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Empanadas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Entradas</span>
+                    <h3 class="product-title">Trio de Empanadas de Lomo Cortadas a Cuchillo</h3>
+                    <p class="product-desc">Masa artesanal horneada en barro, rellenas de lomo jugoso, cebolla de verdeo y especias.</p>
+                    <div class="product-price">$ 6.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Empanadas%20de%20Lomo" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="postres">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Volcan de Chocolate">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Postres</span>
+                    <h3 class="product-title">Volcán de Chocolate con Helado de Crema</h3>
+                    <p class="product-desc">Bizcocho tibio de chocolate amargo con centro líquido tibio y una bocha de helado de vainilla.</p>
+                    <div class="product-price">$ 6.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Volcan%20de%20Chocolate" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="principales">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Salmon">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Platos Principales</span>
+                    <h3 class="product-title">Salmón Rosado a la Grill con Verduras Asadas</h3>
+                    <p class="product-desc">Filete de salmón fresco sellado a la plancha sobre colchón de vegetales de estación al horno.</p>
+                    <div class="product-price">$ 19.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Salmon%20Rosado" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Limonada">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Bebidas & Cócteles</span>
+                    <h3 class="product-title">Limonada Menta & Jengibre (Jarra 1 Litro)</h3>
+                    <p class="product-desc">Jugo fresco de limones exprimidosa en el momento, hojas de menta, jengibre y endulzante natural.</p>
+                    <div class="product-price">$ 4.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20una%20Jarra%20de%20Limonada" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="entradas">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1572656631137-7935297eff55?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Tabla de Quesos">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Entradas</span>
+                    <h3 class="product-title">Tabla Regional de Quesos & Fiambres</h3>
+                    <p class="product-desc">Jamón crudo madurado, queso brie, salame de colonia, frutos secos, aceitunas y panes caseros.</p>
+                    <div class="product-price">$ 15.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20la%20Tabla%20de%20Fiambres" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Aperol Spritz">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Bebidas & Cócteles</span>
+                    <h3 class="product-title">Aperol Spritz Italiano Clásico</h3>
+                    <p class="product-desc">Aperol, Prosecco espumante, soda y rodaja de naranja fresca sobre abundante hielo.</p>
+                    <div class="product-price">$ 5.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20un%20Aperol%20Spritz" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Restaurantes, Bares & Gastronomía</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const desc = card.querySelector('.product-desc').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query) || desc.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

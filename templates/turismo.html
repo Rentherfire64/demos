@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Viajes & Turismo | Demo Interactiva</title>
+    <meta name="description" content="Paquetes turísticos, escapadas de fin de semana, vuelos, hoteles y excursiones guiadas. Agendá tus vacaciones.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #081b29;
+            --bg-card: rgba(15, 32, 67, 0.7);
+            --accent-emerald: #10b981;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+
+        /* HEADER & HERO */
+        header {
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.15) 0%, rgba(8, 27, 41, 1) 100%);
+            padding: 90px 5% 50px;
+            text-align: center;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .badge { background: var(--accent-emerald); color: #000; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); margin: 15px 0; font-weight: 900; background: linear-gradient(to right, #34d399, #10b981, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.hero-desc { color: var(--text-gray); max-width: 650px; margin: 0 auto 30px; font-size: 1.05rem; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 800; color: #fff; }
+
+        /* PAQUETES GRID */
+        .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .package-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        .package-card:hover { transform: translateY(-8px); border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.15); }
+        
+        .package-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .package-body { padding: 25px 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .package-body h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .package-body p { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px; }
+
+        .package-meta { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 20px; font-weight: 600; }
+        .price { font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 15px; text-align: center; }
+
+        /* MÓDULO RESORT & COTIZADOR */
+        .booking-box {
+            background: rgba(15, 32, 67, 0.85);
+            border: 1px solid var(--accent-emerald);
+            border-radius: 24px;
+            padding: 35px 25px;
+            max-width: 700px;
+            margin: 50px auto;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-gray); font-size: 0.9rem; font-weight: 600; }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(8, 27, 41, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .form-group select:focus, .form-group input:focus { border-color: var(--accent-emerald); }
+
+        /* BOTONES */
+        .btn-emerald {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn-emerald:hover { opacity: 0.9; transform: scale(1.02); }
+
+        footer { text-align: center; padding: 40px 5%; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-gray); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge"><i class="fas fa-plane-departure"></i> Agencia de Viajes & Turismo</span>
+        <h1>Explora Tu Próximo Destino</h1>
+        <p class="hero-desc">Paquetes nacionales e internacionales con traslados, alojamiento y asistencia médica incluidos. Tu viaje soñado a un clic de distancia.</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Destinos Destacados</h2>
+        
+        <div class="packages-grid">
+            <div class="package-card">
+                <img class="package-img" src="https://images.unsplash.com/photo-1589553460732-58ef7a11d954?auto=format&fit=crop&w=600&q=80" alt="Bariloche">
+                <div class="package-body">
+                    <div>
+                        <h3>Escapada Bariloche & Siete Lagos</h3>
+                        <p>Incluye pasajes aéreos, 5 noches en hotel 4★ con desayuno buffet y excursión al Circuito Chico.</p>
+                        <div class="package-meta">
+                            <span><i class="far fa-clock"></i> 6 Días / 5 Noches</span>
+                            <span><i class="fas fa-plane"></i> Vuelo Directo</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price">$380.000 / pers.</div>
+                        <button class="btn-emerald" onclick="seleccionarDestino('Bariloche & Siete Lagos', 380000)">Cotizar Viaje</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="package-card">
+                <img class="package-img" src="https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=600&q=80" alt="Cataratas">
+                <div class="package-body">
+                    <div>
+                        <h3>Cataratas del Iguazú Aventura</h3>
+                        <p>Aéreos + 4 noches de alojamiento con media pensión, traslado y entradas a Parques Nacionales.</p>
+                        <div class="package-meta">
+                            <span><i class="far fa-clock"></i> 5 Días / 4 Noches</span>
+                            <span><i class="fas fa-bus"></i> Traslados Inc.</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price">$290.000 / pers.</div>
+                        <button class="btn-emerald" onclick="seleccionarDestino('Cataratas del Iguazú', 290000)">Cotizar Viaje</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="package-card">
+                <img class="package-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Caribe">
+                <div class="package-body">
+                    <div>
+                        <h3>Cancún & Playa del Carmen</h3>
+                        <p>Vuelos internacionales, 7 noches en Resort All-Inclusive frente al mar y asistencia al viajero.</p>
+                        <div class="package-meta">
+                            <span><i class="far fa-clock"></i> 8 Días / 7 Noches</span>
+                            <span><i class="fas fa-concierge-bell"></i> All Inclusive</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price">USD 1.450 / pers.</div>
+                        <button class="btn-emerald" onclick="seleccionarDestino('Cancún All Inclusive', 1450)">Cotizar Viaje</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO COTIZADOR DE VIAJES -->
+        <div class="booking-box" id="reserva">
+            <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Consulta de Disponibilidad</h2>
+            <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 25px;">Seleccioná las opciones para que un agente de viajes te envíe la cotización detallada:</p>
+            
+            <div class="form-group">
+                <label>Paquete / Destino Elegido</label>
+                <select id="select-destino">
+                    <option value="Bariloche & Siete Lagos">Bariloche & Siete Lagos ($380.000)</option>
+                    <option value="Cataratas del Iguazú">Cataratas del Iguazú ($290.000)</option>
+                    <option value="Cancún All Inclusive">Cancún All Inclusive (USD 1.450)</option>
+                    <option value="Mendoza Rutas del Vino">Mendoza Rutas del Vino</option>
+                    <option value="Personalizado / Otro Destino">Otro Destino (A medida)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Cantidad de Pasajeros</label>
+                <select id="select-pasajeros">
+                    <option value="1 Pasajero">1 Pasajero (Individual)</option>
+                    <option value="2 Pasajeros (Pareja)">2 Pasajeros (Pareja)</option>
+                    <option value="Familia (3 a 4 personas)">Familia (3 a 4 personas)</option>
+                    <option value="Grupo (5+ personas)">Grupo (5 o más personas)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Mes o Fecha Aproximada de Viaje</label>
+                <input type="text" id="input-fecha" placeholder="Ej: Octubre 2026 / Vacaciones de Verano" required>
+            </div>
+
+            <button class="btn-emerald" onclick="enviarViajeWhatsApp()"><i class="fab fa-whatsapp"></i> Solicitar Presupuesto por WhatsApp</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Viajes & Turismo | Plantilla Demo por LADevHosting</p>
+    </footer>
+
+    <script>
+        function seleccionarDestino(nombre, precio) {
+            const selectDest = document.getElementById('select-destino');
+            selectDest.value = nombre;
+            document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function enviarViajeWhatsApp() {
+            const destino = document.getElementById('select-destino').value;
+            const pasajeros = document.getElementById('select-pasajeros').value;
+            const fecha = document.getElementById('input-fecha').value;
+
+            if (!fecha.trim()) {
+                alert("Por favor indicá una fecha o mes de preferencia para viajar.");
+                return;
+            }
+
+            const msg = `Hola! Quisiera solicitar una cotización de viaje:\n\n✈️ *Destino:* ${destino}\n👥 *Pasajeros:* ${pasajeros}\n📅 *Fecha estimativa:* ${fecha}\n\n¿Me enviarían más información sobre los vuelos y hoteles disponibles?`;
+            window.open(`https://wa.me/5492204152124?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inmobiliaria & Bienes Raíces | Propiedades Exclusivas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0b1321;
+            --bg-card: #152238;
+            --accent-gold: #d97706;
+            --accent-blue: #2563eb;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(11,19,33,0.88), rgba(11,19,33,0.96)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; font-family: Georgia, serif; }
+        .logo i { color: var(--accent-gold); }
+        .logo span { color: var(--accent-gold); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-gold); 
+            color: #0b1321; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #b45309; color: #fff; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; margin-bottom: 10px; font-family: Georgia, serif; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b1321;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0b1321;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-gold);
+            color: #0b1321;
+            border-color: var(--accent-gold);
+        }
+
+        /* GRID DE PROPIEDADES */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-gold); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-gold);
+            color: #0b1321;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-gold); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; font-family: Georgia, serif; }
+        .product-desc { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #152238;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-building"></i> REAL <span>ESTATE</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#propiedades">Propiedades</a></li>
+                <li><a href="#tasaciones">Tasaciones</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20tasar%20mi%20propiedad%20o%20hacer%20una%20consulta" target="_blank" class="btn-contact">
+                    <i class="fas fa-calculator"></i> Tasar Mi Propiedad
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Tu Próximo Hogar Comienza Aquí</h1>
+        <p class="hero-subtitle">Venta y alquiler de departamentos, casas, lotes y locales comerciales. Asesoramiento profesional e inmobiliario de confianza.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar casa, departamento 2 ambientes, lote, barrio, palermo, cochera, pileta...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('departamentos')">Departamentos</button>
+                <button class="filter-btn" onclick="filterCategory('casas')">Casas</button>
+                <button class="filter-btn" onclick="filterCategory('terrenos')">Terrenos & Lotes</button>
+                <button class="filter-btn" onclick="filterCategory('locales')">Locales & Oficinas</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="propiedades">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="departamentos">
+                <div class="product-img-box">
+                    <span class="product-badge">Venta - A Estrenar</span>
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Departamento">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Departamentos</span>
+                    <h3 class="product-title">Departamento 2 Amb. con Balcón & Amenities</h3>
+                    <p class="product-desc">Palermo Soho — 52m², sum, pileta, parrilla y seguridad 24hs. Excelente vista despejada.</p>
+                    <div class="product-price">USD 125.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Depto%202%20Amb%20en%20Palermo" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="casas">
+                <div class="product-img-box">
+                    <span class="product-badge">Oportunidad</span>
+                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Casa Moderna">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Casas</span>
+                    <h3 class="product-title">Casa Moderna 4 Amb. con Pileta & Parque</h3>
+                    <p class="product-desc">Barrio Privado — 240m² cubiertos, máster suite, quincho completo y garaje para 2 autos.</p>
+                    <div class="product-price">USD 280.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20la%20Casa%20Moderna%20con%20Pileta" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="departamentos">
+                <div class="product-img-box">
+                    <span class="product-badge">Alquiler</span>
+                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Monoambiente">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Departamentos</span>
+                    <h3 class="product-title">Monoambiente Divisible Luminoso</h3>
+                    <p class="product-desc">Belgrano — 38m², cocina integrada, balcón al frente. A metros del subte.</p>
+                    <div class="product-price">$ 380.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Alquiler%20del%20Monoambiente%20en%20Belgrano" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="terrenos">
+                <div class="product-img-box">
+                    <span class="product-badge">Venta</span>
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Terreno Lote">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terrenos & Lotes</span>
+                    <h3 class="product-title">Lote Residencial de 800m² en Barrio Cerrado</h3>
+                    <p class="product-desc">Zona Norte — Todos los servicios subterráneos, excelente orientación y listo para construir.</p>
+                    <div class="product-price">USD 65.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Lote%20de%20800m2" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="locales">
+                <div class="product-img-box">
+                    <span class="product-badge">Comercial</span>
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Oficina Comercial">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Locales & Oficinas</span>
+                    <h3 class="product-title">Oficina Comercial 90m² Edificio Corporativo</h3>
+                    <p class="product-desc">Microcentro — Planta libre, sala de reuniones, aire central y cocheras en el edificio.</p>
+                    <div class="product-price">USD 140.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20la%20Oficina%20Comercial" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="departamentos">
+                <div class="product-img-box">
+                    <span class="product-badge">Exclusivo</span>
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Penthouse">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Departamentos</span>
+                    <h3 class="product-title">Penthouse 4 Amb. con Terraza & Parrilla Privada</h3>
+                    <p class="product-desc">Puerto Madero — 180m², vista panorámica al río, 2 cocheras fijas y amenities de lujo.</p>
+                    <div class="product-price">USD 520.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Penthouse%20en%20Puerto%20Madero" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="casas">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Chalet Tradicional">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Casas</span>
+                    <h3 class="product-title">Chalet Tradicional 3 Amb. con Jardín</h3>
+                    <p class="product-desc">Vicente López — 150m² sobre lote propio, garage cubierto, patio con parrilla y lavadero.</p>
+                    <div class="product-price">USD 195.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Chalet%20en%20Vicente%20Lopez" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="departamentos">
+                <div class="product-img-box">
+                    <span class="product-badge">Venta</span>
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Depto 3 Amb">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Departamentos</span>
+                    <h3 class="product-title">Semipiso 3 Amb. al Frente con Balcón Corrido</h3>
+                    <p class="product-desc">Caballito — 78m², cocina independiente con comedor diario, suite principal y cochera.</p>
+                    <div class="product-price">USD 168.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Semipiso%20en%20Caballito" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="locales">
+                <div class="product-img-box">
+                    <span class="product-badge">Alquiler</span>
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Local Gastronomico">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Locales & Oficinas</span>
+                    <h3 class="product-title">Local Comercial Apto Gastronomía sobre Avenida</h3>
+                    <p class="product-desc">Zona Comercial — 120m² en dos plantas, extracción instalada y trifásica.</p>
+                    <div class="product-price">$ 850.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Local%20Gastronomico" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="terrenos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Macrolote">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terrenos & Lotes</span>
+                    <h3 class="product-title">Terreno Comercial & Industrial 2500m²</h3>
+                    <p class="product-desc">Acceso Autopista — Zonificación industrial, ideal para galpón o centro logístico.</p>
+                    <div class="product-price">USD 210.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Terreno%20Industrial" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="casas">
+                <div class="product-img-box">
+                    <span class="product-badge">Oportunidad</span>
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Casa Minimalista">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Casas</span>
+                    <h3 class="product-title">Casa Minimalista en 1 Planta con Galería</h3>
+                    <p class="product-desc">Canning — 160m², amplio living comedor, 3 dormitorios (1 en suite) y parrilla.</p>
+                    <div class="product-price">USD 215.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20la%20Casa%20Minimalista%20en%20Canning" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="departamentos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Depto Pozo">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Departamentos</span>
+                    <h3 class="product-title">Proyecto en Pozo: Deptos de 1 y 2 Ambientes</h3>
+                    <p class="product-desc">Villa Urquiza — Financiación en cuotas. Entrega estimada en 18 meses.</p>
+                    <div class="product-price">Desde USD 58.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20del%20Proyecto%20en%20Pozo%20en%20Urquiza" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="locales">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1582650625119-3a31f8fa2699?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Galpon">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Locales & Oficinas</span>
+                    <h3 class="product-title">Galpón / Depósito de 500m² con Oficinas</h3>
+                    <p class="product-desc">San Martín — Techo parabólico, entrada de camión, vestuarios y fuerza motriz.</p>
+                    <div class="product-price">USD 310.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Galpon%20en%20San%20Martin" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="casas">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Duplex">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Casas</span>
+                    <h3 class="product-title">Dúplex de 3 Amb. con Patio & Entrada de Auto</h3>
+                    <p class="product-desc">Ramos Mejía — Sin expensas, 2 dormitorios arriba, toilet en planta baja y lavadero.</p>
+                    <div class="product-price">USD 118.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Duplex%20en%20Ramos%20Mejia" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="departamentos">
+                <div class="product-img-box">
+                    <span class="product-badge">Alquiler</span>
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Depto 3 Amb Alquiler">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Departamentos</span>
+                    <h3 class="product-title">Departamento 3 Ambientes Amoblado Premium</h3>
+                    <p class="product-desc">Nuñez — Equipado completo, balcón con parrilla, cochera fija y seguridad.</p>
+                    <div class="product-price">USD 900 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Alquiler%20Amoblado%20en%20Nu%C3%B1ez" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Inmobiliarias & Bienes Raíces</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const desc = card.querySelector('.product-desc').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query) || desc.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

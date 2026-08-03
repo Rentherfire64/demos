@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Fitness Gym | Entrenamiento, Clases & Musculación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0a0c10;
+            --bg-card: #121620;
+            --accent-neon: #84cc16; /* Lime / Neon Green */
+            --accent-yellow: #eab308;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(10,12,16,0.85), rgba(10,12,16,0.96)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+        .logo i { color: var(--accent-neon); }
+        .logo span { color: var(--accent-neon); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-neon); 
+            color: #000; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .btn-contact:hover { background: #65a30d; color: #fff; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.5px; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0a0c10;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0a0c10;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-neon);
+            color: #000;
+            border-color: var(--accent-neon);
+        }
+
+        /* GRID DE PRODUCTOS / CLASES */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-neon); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-neon);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-neon); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #121620;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-dumbbell"></i> TITAN <span>GYM</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#actividades">Actividades</a></li>
+                <li><a href="#planes">Planes & Pases</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20solicitar%20mi%20Clase%20de%20Prueba%20Gratis" target="_blank" class="btn-contact">
+                    <i class="fas fa-fire"></i> Clase Gratis
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Transforma tu cuerpo, supera tus límites</h1>
+        <p class="hero-subtitle">Equipamiento de alta gama, entrenamiento funcional, crossfit, clases dirigidas y entrenadores certificados.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar musculación, crossfit, spinning, pase libre, proteína...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('musculacion')">Musculación</button>
+                <button class="filter-btn" onclick="filterCategory('crossfit')">Crossfit & HIIT</button>
+                <button class="filter-btn" onclick="filterCategory('clases')">Clases Grupales</button>
+                <button class="filter-btn" onclick="filterCategory('pases')">Pases & Membresías</button>
+                <button class="filter-btn" onclick="filterCategory('suplementos')">Suplementos</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="actividades">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="pases">
+                <div class="product-img-box">
+                    <span class="product-badge">Más Popular</span>
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pase Libre">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Pases & Membresías</span>
+                    <h3 class="product-title">Pase Libre Mensual VIP (Musculación + Clases + Locker)</h3>
+                    <div class="product-price">$ 28.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20inscribirme%20al%20Pase%20Libre%20Mensual%20VIP" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Inscribirme por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="musculacion">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Musculacion">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Musculación</span>
+                    <h3 class="product-title">Pase Musculación & Cardio (Acceso Ilimitado)</h3>
+                    <div class="product-price">$ 22.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Pase%20Musculacion" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="crossfit">
+                <div class="product-img-box">
+                    <span class="product-badge">Alta Intensidad</span>
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Crossfit">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Crossfit & HIIT</span>
+                    <h3 class="product-title">Cross Training & Box (3 Veces x Semana)</h3>
+                    <div class="product-price">$ 25.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20de%20Cross%20Training" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="clases">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Spinning">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Clases Grupales</span>
+                    <h3 class="product-title">Spinning Indoor Cycling (Reserva de Bici Incluida)</h3>
+                    <div class="product-price">$ 19.500 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20lugar%20para%20Spinning" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="clases">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pilates">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Clases Grupales</span>
+                    <h3 class="product-title">Yoga & Funcional Mat (Flexibilidad & Core)</h3>
+                    <div class="product-price">$ 18.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20info%20de%20Yoga%20y%20Funcional" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="pases">
+                <div class="product-img-box">
+                    <span class="product-badge">Ahorrá 20%</span>
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pase Semestral">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Pases & Membresías</span>
+                    <h3 class="product-title">Pase Semestral Completo (6 Meses Todo Incluido)</h3>
+                    <div class="product-price">$ 134.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20aprovechar%20la%20Promo%20Semestral" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir Promo WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="suplementos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Whey Protein">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Suplementos</span>
+                    <h3 class="product-title">Proteína Whey Protein Concentrada 1kg Ultra Tech</h3>
+                    <div class="product-price">$ 32.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Whey%20Protein%201kg" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="suplementos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Creatina">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Suplementos</span>
+                    <h3 class="product-title">Creatina Monohidratada Micronizada 300g (60 Serv)</h3>
+                    <div class="product-price">$ 29.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Creatina%20Monohidratada" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="clases">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1549576490-b0b4831ef60a?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Boxeo">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Clases Grupales</span>
+                    <h3 class="product-title">Boxeo Recreativo & Funcional (Técnica & Sacos)</h3>
+                    <div class="product-price">$ 21.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Boxeo" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="musculacion">
+                <div class="product-img-box">
+                    <span class="product-badge">Personalizado</span>
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Personal Trainer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Musculación</span>
+                    <h3 class="product-title">Plan Personal Trainer 1 a 1 + Rutina Nutricional</h3>
+                    <div class="product-price">$ 45.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20de%20Personal%20Trainer" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="crossfit">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=400&auto=format&fit=crop" class="product-img" alt="HIIT">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Crossfit & HIIT</span>
+                    <h3 class="product-title">HIIT Quemagrasa Express (45 min Circuito Intenso)</h3>
+                    <div class="product-price">$ 17.500 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20clases%20HIIT" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="suplementos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pre Entreno">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Suplementos</span>
+                    <h3 class="product-title">Pre-Entreno Extreme Energy C4 / Nitro (30 Serv)</h3>
+                    <div class="product-price">$ 24.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Pre-Entreno" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="clases">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Zumba">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Clases Grupales</span>
+                    <h3 class="product-title">Zumba & Ritmos Latinos (Cardio Divertido)</h3>
+                    <div class="product-price">$ 16.000 / mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20horarios%20de%20Zumba" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="pases">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pase Diario">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Pases & Membresías</span>
+                    <h3 class="product-title">Pase Diario / Pass 1 Día (Acceso Total Musculación)</h3>
+                    <div class="product-price">$ 3.500 / día</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20un%20Pase%20Diario" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Comprar Pase WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="suplementos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="BCAA">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Suplementos</span>
+                    <h3 class="product-title">Aminoácidos BCAA 2:1:1 Recuperador 200g</h3>
+                    <div class="product-price">$ 18.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Aminoacidos%20BCAA" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Gimnasios & Centros Fitness</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

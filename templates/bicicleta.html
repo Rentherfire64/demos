@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velocity Bikes | Bicicletas, Repuestos & Indumentaria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0a0e14;
+            --bg-card: #121824;
+            --accent-green: #84cc16; /* Lime / Neon Green */
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(10,14,20,0.88), rgba(10,14,20,0.96)), url('https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--accent-green); }
+        .logo span { color: var(--accent-green); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-green); 
+            color: #000; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #65a30d; color: #fff; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 10px; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0a0e14;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0a0e14;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-green);
+            color: #000;
+            border-color: var(--accent-green);
+        }
+
+        /* GRID DE PRODUCTOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-green); }
+
+        .product-img-box {
+            position: relative;
+            background: #fff;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .product-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-green);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-green); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #121824;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-bicycle"></i> VELOCITY <span>BIKES</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#taller">Taller & Service</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20un%20turn%20de%20taller%20o%20bicicleta" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Contactar
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Rodá sin límites</h1>
+        <p class="hero-subtitle">Las mejores marcas en MTB, Ruta, Urbanas y E-Bikes. Envíos a todo el país y service especializado.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar por marca, modelo (Shimano, Trek, cascos, talle)...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('mtb')">Mountain Bike</button>
+                <button class="filter-btn" onclick="filterCategory('ruta')">Ruta & Gravel</button>
+                <button class="filter-btn" onclick="filterCategory('ebike')">E-Bikes & Urbanas</button>
+                <button class="filter-btn" onclick="filterCategory('accesorios')">Indumentaria & Cascos</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="catalogo">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="mtb">
+                <div class="product-img-box">
+                    <span class="product-badge">Top Ventas</span>
+                    <img src="https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?q=80&w=400&auto=format&fit=crop" class="product-img" alt="MTB R29">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Mountain Bike</span>
+                    <h3 class="product-title">Bicicleta Venzo Thorn R29 Shimano Deore 1x12</h3>
+                    <div class="product-price">U$S 750</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Venzo%20Thorn%20R29" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="ruta">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Bici Ruta">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Ruta & Gravel</span>
+                    <h3 class="product-title">Bicicleta de Ruta Carbono Shimano 105 11v</h3>
+                    <div class="product-price">U$S 1.850</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Bici%20Ruta%20Carbono" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="ebike">
+                <div class="product-img-box">
+                    <span class="product-badge">Especial</span>
+                    <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&auto=format&fit=crop" class="product-img" alt="E-Bike">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">E-Bikes & Urbanas</span>
+                    <h3 class="product-title">E-Bike Urbana Eléctrica Motor 250W Autonomía 60km</h3>
+                    <div class="product-price">U$S 1.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20E-Bike%20Urbana" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Casco Bici">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Indumentaria & Cascos</span>
+                    <h3 class="product-title">Casco Giro Cinder MIPS Aerodinámico</h3>
+                    <div class="product-price">U$S 120</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Casco%20Giro%20MIPS" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="mtb">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&auto=format&fit=crop" class="product-img" alt="MTB Doble">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Mountain Bike</span>
+                    <h3 class="product-title">Bicicleta MTB Doble Suspensión Fox 120mm R29</h3>
+                    <div class="product-price">U$S 2.400</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20MTB%20Doble%20Suspension" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="ruta">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Gravel Bike">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Ruta & Gravel</span>
+                    <h3 class="product-title">Bicicleta Gravel Aluminio Shimano GRX 2x10</h3>
+                    <div class="product-price">U$S 1.150</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Gravel%20Shimano%20GRX" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Zapatillas Ciclismo">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Indumentaria & Cascos</span>
+                    <h3 class="product-title">Zapatillas MTB Shimano XC3 Cierre BOA</h3>
+                    <div class="product-price">U$S 145</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20talles%20Zapatillas%20Shimano%20XC3" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="ebike">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1505705694340-019e1e335916?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Bici Plegable">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">E-Bikes & Urbanas</span>
+                    <h3 class="product-title">Bicicleta Plegable R20 Rodado Urbano 7v</h3>
+                    <div class="product-price">U$S 380</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Plegable%20R20" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="mtb">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?q=80&w=400&auto=format&fit=crop" class="product-img" alt="MTB Inicio">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Mountain Bike</span>
+                    <h3 class="product-title">Bicicleta MTB R29 Frenos a Disco Hidráulicos 24v</h3>
+                    <div class="product-price">U$S 420</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20MTB%20R29%2024v" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1517646287270-a5a9ca602e5c?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Luz Bici">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Indumentaria & Cascos</span>
+                    <h3 class="product-title">Kit Luces LED USB Recargables 1000 Lumens</h3>
+                    <div class="product-price">U$S 35</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20el%20Kit%20de%20Luces%20LED" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="ebike">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&auto=format&fit=crop" class="product-img" alt="MTB Electrica">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">E-Bikes & Urbanas</span>
+                    <h3 class="product-title">E-MTB Eléctrica de Montaña Motor Bosch 500Wh</h3>
+                    <div class="product-price">U$S 3.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20E-MTB%20Bosch" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="ruta">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Ruedas Carbono">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Ruta & Gravel</span>
+                    <h3 class="product-title">Juego de Ruedas Carbono Ruta Perfil 50mm</h3>
+                    <div class="product-price">U$S 690</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Ruedas%20de%20Carbono" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Ciclocomputador">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Indumentaria & Cascos</span>
+                    <h3 class="product-title">Ciclocomputador GPS Garmin Edge 530</h3>
+                    <div class="product-price">U$S 310</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Garmin%20Edge%20530" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="ebike">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1505705694340-019e1e335916?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Paseo Vintage">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">E-Bikes & Urbanas</span>
+                    <h3 class="product-title">Bicicleta de Paseo Vintage R26 con Canasto</h3>
+                    <div class="product-price">U$S 290</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Bici%20Paseo%20Vintage" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="mtb">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Mtb Nivel Medio">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Mountain Bike</span>
+                    <h3 class="product-title">Bicicleta MTB Cuadro Cuadro Aluminio Monoplato 1x11</h3>
+                    <div class="product-price">U$S 580</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20MTB%20Monoplato" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Bicicleterías & Bikeshops</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

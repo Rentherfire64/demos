@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espacio Holístico & Terapias Naturales | Bienestar, Reiki & Meditación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0c0b10;
+            --bg-card: #181522;
+            --accent-purple: #a855f7;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --text-light: #faf5ff;
+            --text-gray: #a1a1aa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(12,11,16,0.85), rgba(12,11,16,0.96)), url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; font-family: Georgia, serif; }
+        .logo i { color: var(--accent-purple); }
+        .logo span { color: var(--accent-rose); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-rose)); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .btn-contact:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; margin-bottom: 10px; font-family: Georgia, serif; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0c0b10;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0c0b10;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-purple);
+            color: #fff;
+            border-color: var(--accent-purple);
+        }
+
+        /* GRID DE SERVICIOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-purple); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-purple);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-purple); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; font-family: Georgia, serif; }
+        .product-desc { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
+        .product-price { font-size: 1.2rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #181522;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-gem"></i> PRANA <span>HOLÍSTICO</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#terapias">Terapias</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20sesion%20o%20consulta%20holistica" target="_blank" class="btn-contact">
+                    <i class="far fa-calendar-alt"></i> Agendar Sesión
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Sanación Integral para el Alma & el Cuerpo</h1>
+        <p class="hero-subtitle">Terapias holísticas, lectura de tarot, sanación energética, registros akáshicos y productos naturales para eleva tu vibración.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar reiki, tarot, registros akashicos, astrologia, sahumos, constelaciones...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('terapias')">Terapias Energéticas</button>
+                <button class="filter-btn" onclick="filterCategory('oraculos')">Tarot & Astrología</button>
+                <button class="filter-btn" onclick="filterCategory('talleres')">Talleres & Cursos</button>
+                <button class="filter-btn" onclick="filterCategory('productos')">Productos & Sahumos</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="terapias">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="terapias">
+                <div class="product-img-box">
+                    <span class="product-badge">Más Pedido</span>
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Sesion de Reiki">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias Energéticas</span>
+                    <h3 class="product-title">Sesión de Reiki Usui & Alineación de Chakras</h3>
+                    <p class="product-desc">Armonización del campo electromagnético mediante imposición de manos y péndulo de cuarzo para desbloquear centros energéticos.</p>
+                    <div class="product-price">Sesión de 60 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20sesion%20de%20Reiki%20Usui" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="oraculos">
+                <div class="product-img-box">
+                    <span class="product-badge">Evolutivo</span>
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Lectura de Tarot">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Tarot & Astrología</span>
+                    <h3 class="product-title">Lectura de Tarot Evolutivo & Guía Espiritual</h3>
+                    <p class="product-desc">Sesión presencial o virtual para comprender tus procesos actuales, bloqueos inconscientes y potencialidades.</p>
+                    <div class="product-price">Sesión de 50 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20Lectura%20de%20Tarot%20Evolutivo" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="terapias">
+                <div class="product-img-box">
+                    <span class="product-badge">Profundo</span>
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Registros Akashicos">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias Energéticas</span>
+                    <h3 class="product-title">Apertura de Registros Akáshicos</h3>
+                    <p class="product-desc">Acceso a la memoria del alma para obtener respuestas, canalizar mensajes de tus guías y comprender tu propósito.</p>
+                    <div class="product-price">Sesión de 60 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20apertura%20de%20Registros%20Akashicos" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="oraculos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1532798369041-b33eb37b0e84?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Carta Natal">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Tarot & Astrología</span>
+                    <h3 class="product-title">Lectura de Carta Natal Astrológica Completa</h3>
+                    <p class="product-desc">Análisis profundo del mapa del cielo al momento de tu nacimiento (Sol, Luna, Ascendente y aspectos planetarios).</p>
+                    <div class="product-price">Sesión + Informe PDF</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20solicitar%20el%20analisis%20de%20mi%20Carta%20Natal" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="terapias">
+                <div class="product-img-box">
+                    <span class="product-badge">Sonoterapia</span>
+                    <img src="https://images.unsplash.com/photo-1512290900673-0428a25c1792?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Baño de Gong">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias Energéticas</span>
+                    <h3 class="product-title">Armonización con Cuencos Tibetanos & Gong</h3>
+                    <p class="product-desc">Vibración sonora armónica que relaja el sistema nervioso, reduce el estrés y restablece la frecuencia natural.</p>
+                    <div class="product-price">Sesión Individual o Pareja</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20una%20sesion%20de%20Cuencos%20y%20Gong" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="productos">
+                <div class="product-img-box">
+                    <span class="product-badge">Artesanal</span>
+                    <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Kit de Sahumo">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Productos & Sahumos</span>
+                    <h3 class="product-title">Kit de Sahumado Ancestral & Limpieza Espiritual</h3>
+                    <p class="product-desc">Incluye copal, atado de salvia blanca, palo santo, sahumador cerámico y carbones activados.</p>
+                    <div class="product-price">Kit Completo de Limpieza</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20el%20Kit%20de%20Sahumado%20Ancestral" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Comprar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="talleres">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Constelaciones">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Talleres & Cursos</span>
+                    <h3 class="product-title">Taller de Constelaciones Familiares Grupales</h3>
+                    <p class="product-desc">Sanación de patrones sistémicos transgeneracionales, lealtades invisibles y dinamicas familiares.</p>
+                    <div class="product-price">Jornada Intensiva</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20del%20Taller%20de%20Constelaciones" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="terapias">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Terapia Floral">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias Energéticas</span>
+                    <h3 class="product-title">Terapia Floral de Bach & Bush Australiano</h3>
+                    <p class="product-desc">Entrevista diagnóstica y elaboración de preparado floral personalizado para gestionar emociones como ansiedad y miedos.</p>
+                    <div class="product-price">Consulta + Frasco Gotero</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20consulta%20de%20Terapia%20Floral" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="productos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Set de Cristales">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Productos & Sahumos</span>
+                    <h3 class="product-title">Set de 7 Cristales & Cuarzos para Chakras</h3>
+                    <p class="product-desc">Piedras naturales seleccionadas y limpiadas energéticamente para meditación, curación y protección personal.</p>
+                    <div class="product-price">Incluye Bolsita de Lino</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20el%20Set%20de%207%20Cristales" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Comprar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="talleres">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Curso Reiki Nivel 1">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Talleres & Cursos</span>
+                    <h3 class="product-title">Curso Iniciación en Reiki Usui Nivel 1 (Shoden)</h3>
+                    <p class="product-desc">Aprende autosanación y canalización de energía vital. Incluye sintonización, manual impreso y certificado.</p>
+                    <div class="product-price">Modalidad Presencial o Live</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20del%20Curso%20de%20Reiki%20Nivel%201" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="oraculos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Revolución Solar">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Tarot & Astrología</span>
+                    <h3 class="product-title">Lectura de Revolución Solar (Proyección Anual)</h3>
+                    <p class="product-desc">Predicción energética de tu nuevo año de vida a partir de tu cumpleaños. Clima del año y áreas destacadas.</p>
+                    <div class="product-price">Sesión de 60 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20mi%20Revolucion%20Solar" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="terapias">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1512290900673-0428a25c1792?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Biodecodificacion">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias Energéticas</span>
+                    <h3 class="product-title">Sesión de Biodecodificación Biológica</h3>
+                    <p class="product-desc">Identificación del conflicto emocional o síntoma físico origen para liberar resentires y reprogramar la salud.</p>
+                    <div class="product-price">Sesión de 75 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20sesion%20de%20Biodecodificacion" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="productos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Brumas Aurales">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Productos & Sahumos</span>
+                    <h3 class="product-title">Bruma Aural & Spray Espiritual con Aceites Puros</h3>
+                    <p class="product-desc">Sprays alquímicos con aceites esenciales e hidrolatos para armonización de espacios y aura (Protección / Calma / Abundancia).</p>
+                    <div class="product-price">Frasco de 125ml</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Brumas%20Aurales" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Comprar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="terapias">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Círculo de Mujeres">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias Energéticas</span>
+                    <h3 class="product-title">Círculo de Sanación & Meditación con Cacao Ritual</h3>
+                    <p class="product-desc">Encuentro de conexión con el chakra corazón, meditación guiada y ceremonia sagrada de cacao puro.</p>
+                    <div class="product-price">Encuentro Mensual</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20participar%20del%20Circulo%20de%20Cacao" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="productos">
+                <div class="product-img-box">
+                    <span class="product-badge">Especial</span>
+                    <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Lámpara de Sal">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Productos & Sahumos</span>
+                    <h3 class="product-title">Lámpara de Sal del Himalaya Natural (2-3kg)</h3>
+                    <p class="product-desc">Ioniza el ambiente, neutraliza ondas electromagnéticas y brinda una luz cálida ideal para relajación.</p>
+                    <div class="product-price">Incluye Base de Madera + Cable</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20una%20Lampara%20de%20Sal" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Comprar por WA
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Espacios Holísticos, Terapias Naturales & Bienestar</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const desc = card.querySelector('.product-desc').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query) || desc.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

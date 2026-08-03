@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechZone | Computación, Gamer & Tecnología</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0a0e17;
+            --bg-card: #131b2e;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(10,14,23,0.88), rgba(10,14,23,0.96)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+        .logo i { color: var(--accent-cyan); }
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-contact:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0a0e17;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0a0e17;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        /* GRID DE PRODUCTOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); }
+
+        .product-img-box {
+            position: relative;
+            background: #06090e;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .product-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-cyan);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-cyan); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #131b2e;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-microchip"></i> TECH<span>ZONE</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#armatupc">Armá tu PC</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20un%20producto%20o%20presupuesto" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Pedir Cotización
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">El poder del hardware de última generación</h1>
+        <p class="hero-subtitle">Notebooks, componentes para PC Gamer, periféricos, monitores y consolas. Asesoramiento técnico y envíos a todo el país.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar RTX 4070, Ryzen 7, Notebook Gamer, Auriculares, Monitor 144Hz...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('notebooks')">Notebooks</button>
+                <button class="filter-btn" onclick="filterCategory('pcgamer')">PC Gamer</button>
+                <button class="filter-btn" onclick="filterCategory('componentes')">Componentes</button>
+                <button class="filter-btn" onclick="filterCategory('perifericos')">Periféricos</button>
+                <button class="filter-btn" onclick="filterCategory('monitores')">Monitores</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="catalogo">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="notebooks">
+                <div class="product-img-box">
+                    <span class="product-badge">Top Ventas</span>
+                    <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Notebook Gamer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Notebooks</span>
+                    <h3 class="product-title">Notebook Gamer ASUS TUF i7 16GB SSD 512GB RTX 4060</h3>
+                    <div class="product-price">$ 1.450.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20la%20Notebook%20ASUS%20TUF%20RTX%204060" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="componentes">
+                <div class="product-img-box">
+                    <span class="product-badge">Stock Gamer</span>
+                    <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Placa de Video">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Componentes</span>
+                    <h3 class="product-title">Placa de Video Nvidia GeForce RTX 4070 Super 12GB GDDR6X</h3>
+                    <div class="product-price">$ 890.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20la%20RTX%204070%20Super" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="monitores">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Monitor Gamer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Monitores</span>
+                    <h3 class="product-title">Monitor Gamer Curvo 27" Samsung Odyssey 165Hz 1ms IPS</h3>
+                    <div class="product-price">$ 340.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Monitor%20Samsung%20Odyssey%2027" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="perifericos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Teclado Mecanico">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Periféricos</span>
+                    <h3 class="product-title">Teclado Mecánico RGB Redragon Kumara Switch Red</h3>
+                    <div class="product-price">$ 48.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20el%20Teclado%20Redragon%20Kumara" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="pcgamer">
+                <div class="product-img-box">
+                    <span class="product-badge">Armada & Lista</span>
+                    <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=400&auto=format&fit=crop" class="product-img" alt="PC Gamer Setup">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">PC Gamer</span>
+                    <h3 class="product-title">PC Gamer Ryzen 5 5600 16GB SSD 1TB RTX 3060 12GB</h3>
+                    <div class="product-price">$ 920.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20la%20PC%20Gamer%20Ryzen%205" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="perifericos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Mouse Gamer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Periféricos</span>
+                    <h3 class="product-title">Mouse Inalámbrico Logitech G Pro X Superlight 25k DPI</h3>
+                    <div class="product-price">$ 135.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Mouse%20Logitech%20Superlight" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="componentes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Procesador AMD">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Componentes</span>
+                    <h3 class="product-title">Procesador AMD Ryzen 7 7800X3D AM5 (El mejor para Gaming)</h3>
+                    <div class="product-price">$ 560.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Ryzen%207%207800X3D" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="perifericos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Auriculares Gamer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Periféricos</span>
+                    <h3 class="product-title">Auriculares HyperX Cloud II Wireless 7.1 Surround</h3>
+                    <div class="product-price">$ 148.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Auriculares%20HyperX%20Cloud%20II" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="notebooks">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400&auto=format&fit=crop" class="product-img" alt="MacBook Air">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Notebooks</span>
+                    <h3 class="product-title">Apple MacBook Air M2 8GB SSD 256GB Pantalla Retina 13.6"</h3>
+                    <div class="product-price">$ 1.580.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20MacBook%20Air%20M2" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="componentes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="SSD M2 NVMe">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Componentes</span>
+                    <h3 class="product-title">Disco Sólido SSD 1TB Kingston NV2 M.2 NVMe PCIe 4.0</h3>
+                    <div class="product-price">$ 72.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20SSD%20M2%201TB" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="monitores">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Monitor 4K">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Monitores</span>
+                    <h3 class="product-title">Monitor LG 32" 4K UHD HDR IPS Diseño & Gaming</h3>
+                    <div class="product-price">$ 490.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20Monitor%20LG%2032%204K" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="componentes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1562976540-1502c2145186?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Memoria RAM">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Componentes</span>
+                    <h3 class="product-title">Memoria RAM Corsair Vengeance RGB 32GB (2x16GB) DDR5 6000MHz</h3>
+                    <div class="product-price">$ 165.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Memoria%20RAM%20DDR5%2032GB" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="pcgamer">
+                <div class="product-img-box">
+                    <span class="product-badge">Extreme</span>
+                    <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=400&auto=format&fit=crop" class="product-img" alt="PC Gamer Master">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">PC Gamer</span>
+                    <h3 class="product-title">PC Gamer Ultra Intel i9 14900K 64GB DDR5 RTX 4080 Super</h3>
+                    <div class="product-price">$ 3.200.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20cotizar%20la%20PC%20Gamer%20Ultra%20RTX%204080" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="perifericos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Silla Gamer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Periféricos</span>
+                    <h3 class="product-title">Silla Gamer Ergonómica Cougar Armor EVO Reclinable</h3>
+                    <div class="product-price">$ 310.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Silla%20Gamer%20Cougar" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="componentes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Fuente 850W">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Componentes</span>
+                    <h3 class="product-title">Fuente de Alimentación EVGA 850W 80 Plus Gold Modular</h3>
+                    <div class="product-price">$ 142.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Fuente%20850W%2080%20Plus%20Gold" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Tiendas de Tecnología & Computación</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

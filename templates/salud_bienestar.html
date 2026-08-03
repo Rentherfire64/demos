@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Salud & Bienestar | Spa, Yoga & Nutrición</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0c1815;
+            --bg-card: #142823;
+            --accent-green: #10b981;
+            --accent-mint: #34d399;
+            --text-light: #f0fdf4;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(12,24,21,0.88), rgba(12,24,21,0.96)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; font-family: Georgia, serif; }
+        .logo i { color: var(--accent-mint); }
+        .logo span { color: var(--accent-green); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-green); 
+            color: #0c1815; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #059669; color: #fff; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; margin-bottom: 10px; font-family: Georgia, serif; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0c1815;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0c1815;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-green);
+            color: #0c1815;
+            border-color: var(--accent-green);
+        }
+
+        /* GRID DE SERVICIOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-mint); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-mint);
+            color: #0c1815;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-mint); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; font-family: Georgia, serif; }
+        .product-desc { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
+        .product-price { font-size: 1.2rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #142823;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-spa"></i> VITA <span>WELLNESS</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20un%20turno%20en%20el%20centro%20de%20bienestar" target="_blank" class="btn-contact">
+                    <i class="far fa-calendar-alt"></i> Agendar Turno
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Equilibrio para Tu Cuerpo & Mente</h1>
+        <p class="hero-subtitle">Descubre un espacio dedicado a tu bienestar integral: masajes terapéuticos, yoga, planes nutricionales y tratamientos faciales.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar masaje descontracturante, yoga, pilates, limpieza facial, plan nutricional...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('masajes')">Terapias & Masajes</button>
+                <button class="filter-btn" onclick="filterCategory('fitness')">Fitness & Yoga</button>
+                <button class="filter-btn" onclick="filterCategory('nutricion')">Nutrición & Salud</button>
+                <button class="filter-btn" onclick="filterCategory('estetica')">Estética & Spa</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="servicios">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="masajes">
+                <div class="product-img-box">
+                    <span class="product-badge">Más Solicitado</span>
+                    <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Masaje Descontracturante">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias & Masajes</span>
+                    <h3 class="product-title">Masaje Descontracturante de Espalda & Cuello</h3>
+                    <p class="product-desc">Alivia tensiones acumuladas por estrés o mala postura con técnicas intensivas manuales y aceites esenciales.</p>
+
+                    <div class="product-price">Sesión de 50 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20un%20Masaje%20Descontracturante" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="masajes">
+                <div class="product-img-box">
+                    <span class="product-badge">Relax Total</span>
+                    <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Masaje Piedras Calientes">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias & Masajes</span>
+                    <h3 class="product-title">Terapia de Masaje con Piedras Volcánicas</h3>
+                    <p class="product-desc">Combinación de calor y masaje suave para relajar la musculatura profunda y equilibrar los centros de energía.</p>
+                    <div class="product-price">Sesión de 60 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20Masaje%20con%20Piedras%20Volcanicas" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="fitness">
+                <div class="product-img-box">
+                    <span class="product-badge">Pases Mensuales</span>
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Clases de Yoga">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Fitness & Yoga</span>
+                    <h3 class="product-title">Clases de Hatha Yoga & Meditación Guiada</h3>
+                    <p class="product-desc">Mejora la flexibilidad, respiración y paz mental en grupos reducidos con instrucción personalizada.</p>
+                    <div class="product-price">Pase Libre Mensual</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20de%20las%20clases%20de%20Yoga" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="estetica">
+                <div class="product-img-box">
+                    <span class="product-badge">Recomendado</span>
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Limpieza Facial">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Estética & Spa</span>
+                    <h3 class="product-title">Limpieza Facial Profunda + Hidratación LED</h3>
+                    <p class="product-desc">Extracción de impurezas, peeling suave, máscara descongestiva y terapia de luz para renovar el rostro.</p>
+                    <div class="product-price">Tratamiento de 60 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20un%20turno%20para%20Limpieza%20Facial%20Profunda" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="nutricion">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Consulta Nutricional">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Nutrición & Salud</span>
+                    <h3 class="product-title">Consulta Nutricional & Plan de Alimentación</h3>
+                    <p class="product-desc">Evaluación antropométrica y menú personalizado diseñado según tu estilo de vida y objetivos.</p>
+
+                    <div class="product-price">Consulta + Seguimiento</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20Consulta%20Nutricional" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="fitness">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pilates Reformer">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Fitness & Yoga</span>
+                    <h3 class="product-title">Pilates Reformer en Camillas</h3>
+                    <p class="product-desc">Fortalecimiento del core, mejora postural y tonificación sin impacto articular. Clases grupales.</p>
+                    <div class="product-price">Pack 8 Clases / Mes</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20clases%20de%20Pilates%20Reformer" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="masajes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Drenaje Linfatico">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias & Masajes</span>
+                    <h3 class="product-title">Drenaje Linfático Manual Corporal</h3>
+                    <p class="product-desc">Técnica suave que estimula la circulación, reduce la retención de líquidos y favorece la eliminación de toxinas.</p>
+                    <div class="product-price">Sesión de 45 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20Drenaje%20Linfatico%20Manual" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="estetica">
+                <div class="product-img-box">
+                    <span class="product-badge">Pack Spa</span>
+                    <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Día de Spa">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Estética & Spa</span>
+                    <h3 class="product-title">Día de Spa Relax & Renovación Total</h3>
+                    <p class="product-desc">Circuito de hidromasaje, pulido corporal, masaje relajante y merienda saludable incluida.</p>
+
+                    <div class="product-price">Jornada de 3 Horas</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20regalar%20o%20reservar%20un%20Dia%20de%20Spa" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="nutricion">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Plan Detox">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Nutrición & Salud</span>
+                    <h3 class="product-title">Programa Detox & Antiinflamatorio 21 Días</h3>
+                    <p class="product-desc">Guía nutricional integral, recetario, lista de compras y acompañamiento semanal con nuestra especialista.</p>
+                    <div class="product-price">Programa Digital + Guía</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20informacion%20del%20Programa%20Detox" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="masajes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Reflexologia">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias & Masajes</span>
+                    <h3 class="product-title">Reflexología Podal Terapéutica</h3>
+                    <p class="product-desc">Estimulación de puntos reflejos en los pies para restaurar el flujo energético y aliviar molestias físicas.</p>
+
+                    <div class="product-price">Sesión de 40 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20un%20turno%20de%20Reflexologia" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="estetica">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1512290900673-0428a25c1792?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Exfoliacion Corporal">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Estética & Spa</span>
+                    <h3 class="product-title">Exfoliación Corporal Profunda + Envoltura</h3>
+                    <p class="product-desc">Renovación celular de la piel con sales marinas y mascarilla nutritiva de barro o algas.</p>
+                    <div class="product-price">Sesión de 50 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20Exfoliacion%20y%20Envoltura%20Corporal" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="fitness">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Sesion de Reiki">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias & Masajes</span>
+                    <h3 class="product-title">Sesión Terapéutica de Reiki & Cuencos</h3>
+                    <p class="product-desc">Armonización energética holística mediante imposición de manos y sonoterapia con cuencos de cuarzo.</p>
+                    <div class="product-price">Sesión de 50 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20agendar%20una%20sesion%20de%20Reiki" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="estetica">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Masaje Facial Kobido">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Estética & Spa</span>
+                    <h3 class="product-title">Masaje Facial Lifting Japones (Kobido)</h3>
+                    <p class="product-desc">Técnica milenaria de rejuvenecimiento natural que tonifica músculos faciales y activa el colágeno.</p>
+                    <div class="product-price">Sesión de 45 Min</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20Masaje%20Facial%20Kobido" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="fitness">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Yoga Embarazadas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Fitness & Yoga</span>
+                    <h3 class="product-title">Yoga Prenatal & Preparación para el Parto</h3>
+                    <p class="product-desc">Posturas suaves, técnicas de respiración y alivio de molestias para cada etapa del embarazo.</p>
+                    <div class="product-price">Clases Grupales o Individuales</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20clases%20de%20Yoga%20Prenatal" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="masajes">
+                <div class="product-img-box">
+                    <span class="product-badge">Para 2 Personas</span>
+                    <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Masaje en Pareja">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Terapias & Masajes</span>
+                    <h3 class="product-title">Masaje Relajante en Pareja + Manta Térmica</h3>
+                    <p class="product-desc">Experiencia compartida en gabinete doble ambientado con aromaterapia, música suave y copa de bienvenida.</p>
+                    <div class="product-price">Experiencia en Pareja</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20reservar%20el%20Masaje%20en%20Pareja" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Reservar por WA
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Centros de Salud, Spa & Bienestar</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const desc = card.querySelector('.product-desc').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query) || desc.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

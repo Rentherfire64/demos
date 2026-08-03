@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Pet Shop | Alimentos, Accesorios & Veterinaria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0c131d;
+            --bg-card: #16202e;
+            --accent-cyan: #06b6d4;
+            --accent-yellow: #f59e0b;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(12,19,29,0.88), rgba(12,19,29,0.96)), url('https://images.unsplash.com/photo-1450778869186-3997d5a5188a?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--accent-cyan); }
+        .logo span { color: var(--accent-yellow); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-cyan); 
+            color: #000; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #0891b2; color: #fff; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 10px; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0c131d;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0c131d;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        /* GRID DE PRODUCTOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); }
+
+        .product-img-box {
+            position: relative;
+            background: #fff;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .product-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-yellow);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-cyan); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #16202e;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-paw"></i> HUELLITAS <span>PETSHOP</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#catalogo">Productos</a></li>
+                <li><a href="#veterinaria">Veterinaria</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20hacer%20un%20pedido%20o%20consultar%20por%20veterinaria" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Pedir por WA
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Todo lo que tu mascota necesita para ser feliz</h1>
+        <p class="hero-subtitle">Alimentos balanceados de primeras marcas, accesorios, juguetes y servicio de peluquería & veterinaria.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar alimento, pipeta, rascador, pretal, marca...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('perros')">Perros</button>
+                <button class="filter-btn" onclick="filterCategory('gatos')">Gatos</button>
+                <button class="filter-btn" onclick="filterCategory('salud')">Farmacia & Estética</button>
+                <button class="filter-btn" onclick="filterCategory('accesorios')">Accesorios & Juguetes</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="catalogo">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="perros">
+                <div class="product-img-box">
+                    <span class="product-badge">Envío Gratis</span>
+                    <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Alimento Perros">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Perros</span>
+                    <h3 class="product-title">Royal Canin Adulto Raza Mediana 15kg</h3>
+                    <div class="product-price">$ 48.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Royal%20Canin%20Mediano%2015kg" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="gatos">
+                <div class="product-img-box">
+                    <span class="product-badge">Top Ventas</span>
+                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Alimento Gatos">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Gatos</span>
+                    <h3 class="product-title">Pro Plan Gato Adulto Sterilised Optisavour 7.5kg</h3>
+                    <div class="product-price">$ 32.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Pro%20Plan%20Gato%20Sterilised" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="salud">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pipeta">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Farmacia & Estética</span>
+                    <h3 class="product-title">Pipeta Antipulgas & Garrapatas Perros 10-20kg</h3>
+                    <div class="product-price">$ 6.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Pipeta%20Antipulgas" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="gatos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1545249390-6bdfa286032f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Rascador Gato">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Gatos</span>
+                    <h3 class="product-title">Rascador para Gato Multinivel con Cueva & Juguete</h3>
+                    <div class="product-price">$ 28.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20el%20Rascador%20Multinivel" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pretal Perro">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Accesorios & Juguetes</span>
+                    <h3 class="product-title">Pretal Anti-Tirones Reforzado + Corra Táctica 1.5m</h3>
+                    <div class="product-price">$ 12.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20el%20Pretal%20AntiTirones" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="perros">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Eukanuba">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Perros</span>
+                    <h3 class="product-title">Eukanuba Cachorro Raza Grande 15kg + Regalo</h3>
+                    <div class="product-price">$ 44.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Eukanuba%20Cachorro" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="gatos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Piedras Sanitarias">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Gatos</span>
+                    <h3 class="product-title">Piedras Sanitarias Sanitarias Aglomerantes 4kg</h3>
+                    <div class="product-price">$ 4.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Piedras%20Sanitarias" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="salud">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Shampoo Perro">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Farmacia & Estética</span>
+                    <h3 class="product-title">Shampoo Nutritivo Hipoalergénico Mascotas 500ml</h3>
+                    <div class="product-price">$ 5.400</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Shampoo%20Hipoalergenico" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Cama Perro">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Accesorios & Juguetes</span>
+                    <h3 class="product-title">Cama Moises Antiestrés Antidesgarro Talle L</h3>
+                    <div class="product-price">$ 19.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20la%20Cama%20Moises%20Talle%20L" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="perros">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Dog Chow">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Perros</span>
+                    <h3 class="product-title">Dog Chow Adultos Razas Pequeñas 8kg</h3>
+                    <div class="product-price">$ 18.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Dog%20Chow%208kg" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1535294435445-d7249524ef2e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Juguete Kong">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Accesorios & Juguetes</span>
+                    <h3 class="product-title">Juguete Interactivo Rellenable Caucho Irrompible</h3>
+                    <div class="product-price">$ 9.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20el%20Juguete%20Interactivo" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="salud">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pastilla Garrapatas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Farmacia & Estética</span>
+                    <h3 class="product-title">Comprimido Antiparasitario Oral 3 Meses Protección</h3>
+                    <div class="product-price">$ 14.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20Comprimido%20Antiparasitario" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="gatos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Whiskas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Gatos</span>
+                    <h3 class="product-title">Whiskas Carne & Leche Gatos Cachorros 3kg</h3>
+                    <div class="product-price">$ 9.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20pedir%20Whiskas%20Cachorros" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="accesorios">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Comedero Doble">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Accesorios & Juguetes</span>
+                    <h3 class="product-title">Comedero Bebedero Elevado de Acero Inoxidable</h3>
+                    <div class="product-price">$ 11.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20el%20Comedero%20Elevado" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="salud">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Cepillo Carda">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Farmacia & Estética</span>
+                    <h3 class="product-title">Cepillo Sacapelo Autolimpiante para Perro o Gato</h3>
+                    <div class="product-price">$ 6.100</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20el%20Cepillo%20Autolimpiante" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Pet Shops & Veterinarias</p>
+    </footer>
+
+    <!-- JS PARA MENÚ RESPONSIVE, FILTROS Y BUSCADOR -->
+    <script>
+        // Menú lateral responsive
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Lógica de Filtros y Búsqueda en Vivo
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmacia Central | Salud & Bienestar Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0c131d;
+            --bg-card: #16202e;
+            --accent-green: #10b981;
+            --accent-teal: #06b6d4;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(12,19,29,0.9), rgba(12,19,29,0.95)), url('https://images.unsplash.com/photo-1586015555751-63bb77f4322a?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -1px; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--accent-green); }
+        .logo span { color: var(--accent-teal); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-green); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #059669; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 10px; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0c131d;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #0c131d;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-green);
+            color: #fff;
+            border-color: var(--accent-green);
+        }
+
+        /* GRID DE PRODUCTOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-green); }
+
+        .product-img-box {
+            position: relative;
+            background: #fff;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .product-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-teal);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-green); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .product-price { font-size: 1.3rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #16202e;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .filter-tags { justify-content: flex-start; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-plus-square"></i> FARMACIA <span>CENTRAL</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#ofertas">Ofertas</a></li>
+                <li><a href="#sucursales">Sucursales</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20enviar%20mi%20receta" target="_blank" class="btn-contact">
+                    <i class="fas fa-file-medical"></i> Enviar Receta
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Tu salud y bienestar en un solo lugar</h1>
+        <p class="hero-subtitle">Envíos a domicilio, atención farmacéutica y las mejores marcas en dermocosmética.</p>
+
+        <!-- BUSCADOR CON FILTROS -->
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar remedio, protector solar, champú, marca...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('medicamentos')">Medicamentos</button>
+                <button class="filter-btn" onclick="filterCategory('dermocosmetica')">Dermocosmética</button>
+                <button class="filter-btn" onclick="filterCategory('cuidadopersonal')">Cuidado Personal</button>
+                <button class="filter-btn" onclick="filterCategory('bebes')">Bebés & Maternidad</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="catalogo">
+        <div class="products-grid" id="products-grid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="dermocosmetica">
+                <div class="product-img-box">
+                    <span class="product-badge">Top Ventas</span>
+                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Protector Solar">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Dermocosmética</span>
+                    <h3 class="product-title">Protector Solar FPS 50+ UV Control 200ml</h3>
+                    <div class="product-price">$ 18.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Protector%20Solar%20FPS%2050+" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="medicamentos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Ibuprofeno">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Medicamentos</span>
+                    <h3 class="product-title">Ibuprofeno 600mg (Caja x 20 Comprimidos)</h3>
+                    <div class="product-price">$ 3.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20stock%20de%20Ibuprofeno%20600mg" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="dermocosmetica">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1608248597261-83325805435f?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Serum">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Dermocosmética</span>
+                    <h3 class="product-title">Sérum Facial Ácido Hialurónico 30ml</h3>
+                    <div class="product-price">$ 24.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Serum%20Acido%20Hialuronico" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="bebes">
+                <div class="product-img-box">
+                    <span class="product-badge">Oferta</span>
+                    <img src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pañales">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Bebés & Maternidad</span>
+                    <h3 class="product-title">Pañales Premium Talle G (Pack x 48 Unidades)</h3>
+                    <div class="product-price">$ 15.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Panales%20Talle%20G" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="cuidadopersonal">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Shampoo">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Cuidado Personal</span>
+                    <h3 class="product-title">Shampoo Nutrición Intensa Palmolive 400ml</h3>
+                    <div class="product-price">$ 4.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20comprar%20Shampoo%20Nutricion" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="medicamentos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Vitamina C">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Medicamentos</span>
+                    <h3 class="product-title">Vitamina C Efervescente 1000mg (10 Tab)</h3>
+                    <div class="product-price">$ 3.900</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Vitamina%20C%20Efervescente" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="bebes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Toallitas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Bebés & Maternidad</span>
+                    <h3 class="product-title">Toallitas Húmedas Hipoalergénicas (Pack x 80)</h3>
+                    <div class="product-price">$ 3.100</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Toallitas%20Humedas" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="cuidadopersonal">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1559598467-f8b76c8155d0?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Pasta Dental">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Cuidado Personal</span>
+                    <h3 class="product-title">Crema Dental Blanqueamiento Total 90g</h3>
+                    <div class="product-price">$ 2.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Crema%20Dental" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="dermocosmetica">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Agua Micelar">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Dermocosmética</span>
+                    <h3 class="product-title">Agua Micelar Desmaquillante Todo en 1 400ml</h3>
+                    <div class="product-price">$ 11.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Agua%20Micelar" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="medicamentos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Paracetamol">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Medicamentos</span>
+                    <h3 class="product-title">Paracetamol 500mg Rápida Acción (x 16 Comprimidos)</h3>
+                    <div class="product-price">$ 2.100</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Paracetamol" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="cuidadopersonal">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1619451334792-150fd785ee74?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Desodorante">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Cuidado Personal</span>
+                    <h3 class="product-title">Desodorante Antitranspirante Roll-On 50ml</h3>
+                    <div class="product-price">$ 3.400</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Desodorante" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="bebes">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Leche Materna">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Bebés & Maternidad</span>
+                    <h3 class="product-title">Fórmula Infantil Maternizada Etapa 1 (800g)</h3>
+                    <div class="product-price">$ 22.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Formula%20Infantil" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="product-card" data-category="medicamentos">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1576602976047-174e57a47881?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Termómetro">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Medicamentos</span>
+                    <h3 class="product-title">Termómetro Digital Infrarrojo de Frente Sin Contacto</h3>
+                    <div class="product-price">$ 19.500</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Termometro%20Digital" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="product-card" data-category="dermocosmetica">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Crema Hidratante">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Dermocosmética</span>
+                    <h3 class="product-title">Crema Hidratante Corporal Piel Sensible 400ml</h3>
+                    <div class="product-price">$ 16.200</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Crema%20Hidratante" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="product-card" data-category="cuidadopersonal">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1629732047847-50b21e0811d8?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Alcohol en Gel">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Cuidado Personal</span>
+                    <h3 class="product-title">Alcohol en Gel Antibacterial 250ml con Dosificador</h3>
+                    <div class="product-price">$ 1.800</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20Alcohol%20en%20Gel" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Soluciones Digitales para Farmacias</p>
+    </footer>
+
+    <!-- LÓGICA DE FILTRADO Y BÚSQUEDA EN TIEMPO REAL -->
+    <script>
+        // Menú móvil
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        // Buscador y Filtro por Categoría
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        // Evento escribir en buscador
+        searchInput.addEventListener('input', filterProducts);
+
+        // Evento click botones categoría
+        function filterCategory(category) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
