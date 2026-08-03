@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Estudio Contable & Consultoría | Demo Interactiva</title>
+    <meta name="description" content="Gestión del Monotributo, liquidación de sueldos, Balances, IVA y asesoramiento tributario integral.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #09131d;
+            --bg-card: rgba(18, 30, 49, 0.7);
+            --accent-teal: #0d9488;
+            --accent-light: #14b8a6;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+
+        /* HEADER & HERO */
+        header {
+            background: linear-gradient(180deg, rgba(13, 148, 136, 0.15) 0%, rgba(9, 19, 29, 1) 100%);
+            padding: 90px 5% 50px;
+            text-align: center;
+            border-bottom: 1px solid rgba(13, 148, 136, 0.2);
+        }
+        .badge { background: var(--accent-teal); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); margin: 15px 0; font-weight: 900; background: linear-gradient(to right, #2dd4bf, #0d9488, #14b8a6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.hero-desc { color: var(--text-gray); max-width: 650px; margin: 0 auto 30px; font-size: 1.05rem; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 800; color: #fff; }
+
+        /* SERVICIOS GRID */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(13, 148, 136, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .service-card:hover { transform: translateY(-8px); border-color: var(--accent-light); box-shadow: 0 10px 30px rgba(13, 148, 136, 0.15); }
+        .service-card i { font-size: 2.5rem; color: var(--accent-light); margin-bottom: 15px; }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .service-card p { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px; }
+
+        /* MÓDULO CONSULTA / CALCULADORA */
+        .calc-box {
+            background: rgba(18, 30, 49, 0.85);
+            border: 1px solid var(--accent-teal);
+            border-radius: 24px;
+            padding: 35px 25px;
+            max-width: 700px;
+            margin: 50px auto;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-gray); font-size: 0.9rem; font-weight: 600; }
+        .form-group select, .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            background: rgba(9, 19, 29, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .form-group select:focus, .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-light); }
+
+        /* BOTONES */
+        .btn-teal {
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn-teal:hover { opacity: 0.9; transform: scale(1.02); }
+
+        footer { text-align: center; padding: 40px 5%; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-gray); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge"><i class="fas fa-calculator"></i> Asesoramiento Tributario</span>
+        <h1>Estudio Contable & Impositivo</h1>
+        <p class="hero-desc">Tranquilidad fiscal para tu emprendimiento, PyME o profesión independiente. Nos encargamos de tus impuestos para que te enfoques en hacer crecer tu negocio.</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Monotributo e Inscripciones</h3>
+                    <p>Alta fiscal en AFIP/ARBA, recategorizaciones, facturación electrónica y regularización de deudas.</p>
+                </div>
+                <button class="btn-teal" onclick="seleccionarServicio('Monotributo e Inscripciones')">Consultar Servicio</button>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Responsable Inscripto</h3>
+                    <p>Declaraciones juradas mensuales de IVA, Ingresos Brutos, Ganancias y Bienes Personales.</p>
+                </div>
+                <button class="btn-teal" onclick="seleccionarServicio('Responsables Inscriptos / IVA')">Consultar Servicio</button>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-users-cog"></i>
+                    <h3>Liquidación de Sueldos</h3>
+                    <p>Nóminas salariales, Cargas Sociales (F.931), altas/bajas de empleados y convenios colectivos.</p>
+                </div>
+                <button class="btn-teal" onclick="seleccionarServicio('Liquidación de Sueldos & 931')">Consultar Servicio</button>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Balances & Certificaciones</h3>
+                    <p>Estados contables anuales, certificación de ingresos para créditos o alquileres y auditorías.</p>
+                </div>
+                <button class="btn-teal" onclick="seleccionarServicio('Balances & Certificaciones de Ingresos')">Consultar Servicio</button>
+            </div>
+        </div>
+
+        <!-- MÓDULO CONSULTA FISCAL -->
+        <div class="calc-box" id="consulta">
+            <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Solicitá un Presupuesto de Honorarios</h2>
+            <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 25px;">Seleccioná tu encuadre impositivo para recibir una cotización mensual personalizada:</p>
+            
+            <div class="form-group">
+                <label>Servicio o Tramite Requerido</label>
+                <select id="select-servicio">
+                    <option value="Monotributo e Inscripciones">Gestión Integral Monotributo</option>
+                    <option value="Responsables Inscriptos / IVA">Responsable Inscripto / Pyme</option>
+                    <option value="Liquidación de Sueldos & 931">Liquidación de Sueldos & Empleados</option>
+                    <option value="Certificación de Ingresos">Certificación de Ingresos / Manifestación de Bienes</option>
+                    <option value="Armado y Certificación de Balance">Armado / Firma de Balance Anual</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Situación Actual</label>
+                <select id="select-situacion">
+                    <option value="Quiero iniciar un nuevo negocio / darme de alta">Nuevo emprendimiento / Alta fiscal</option>
+                    <option value="Ya estoy dado de alta y busco cambiar de contador">Ya inscripto (Busco cambio de estudio)</option>
+                    <option value="Tengo deudas o inconsistencias que regularizar">Deudas / Notificaciones de AFIP a regularizar</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tu Nombre o Empresa</label>
+                <input type="text" id="input-nombre" placeholder="Ej: Carlos Gómez / Distribuidora Norte" required>
+            </div>
+
+            <div class="form-group">
+                <label>Comentario adicional (opcional)</label>
+                <textarea id="input-detalle" rows="2" placeholder="Ej: Facturo $2M al mes, no sé qué categoría me corresponde..."></textarea>
+            </div>
+
+            <button class="btn-teal" onclick="enviarConsultaWhatsApp()"><i class="fab fa-whatsapp"></i> Consultar por WhatsApp</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Estudio Contable & Asesores | Plantilla Demo por LADevHosting</p>
+    </footer>
+
+    <script>
+        function seleccionarServicio(servicio) {
+            const selectServ = document.getElementById('select-servicio');
+            selectServ.value = servicio;
+            document.getElementById('consulta').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function enviarConsultaWhatsApp() {
+            const servicio = document.getElementById('select-servicio').value;
+            const situacion = document.getElementById('select-situacion').value;
+            const nombre = document.getElementById('input-nombre').value;
+            const detalle = document.getElementById('input-detalle').value;
+
+            if (!nombre.trim()) {
+                alert("Por favor ingresá tu nombre o el de tu negocio.");
+                return;
+            }
+
+            const msg = `Hola! Mi nombre es *${nombre}* y quisiera recibir un presupuesto del estudio contable:\n\n📊 *Servicio:* ${servicio}\n📌 *Situación:* ${situacion}\n📝 *Detalle:* ${detalle || 'Sin detalle adicional'}\n\n¿Podríamos coordinar una breve llamada o asesoria?`;
+            window.open(`https://wa.me/5492204152124?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>

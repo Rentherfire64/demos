@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Viajes & Turismo | Paquetes y Excursiones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0c1524;
+            --bg-card: #16233b;
+            --accent-blue: #38bdf8;
+            --accent-orange: #fb923c;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* HEADER & NAVBAR */
+        header {
+            background: linear-gradient(rgba(12,21,36,0.85), rgba(12,21,36,0.95)), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200&auto=format&fit=crop') center/cover;
+            padding: 20px 5% 60px 5%;
+            text-align: center;
+        }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 30px; 
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+        .logo i { color: var(--accent-blue); }
+        .logo span { color: var(--accent-orange); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+
+        .btn-contact { 
+            background: var(--accent-orange); 
+            color: #fff; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-contact:hover { background: #f97316; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
+
+        .hero-title { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 900; margin-bottom: 10px; }
+        .hero-subtitle { color: var(--text-gray); font-size: 1.1rem; max-width: 650px; margin: 0 auto 30px auto; }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-input-box { position: relative; width: 100%; }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0c1524;
+            color: #fff;
+            font-size: 16px; /* Evita zoom automático en iPhone */
+            outline: none;
+        }
+
+        .search-input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: flex-start;
+        }
+
+        @media (min-width: 769px) {
+            .filter-tags { justify-content: center; }
+        }
+
+        .filter-btn {
+            background: #0c1524;
+            color: var(--text-gray);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-blue);
+            color: #0c1524;
+            border-color: var(--accent-blue);
+        }
+
+        /* GRID DE DESTINOS */
+        section { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); }
+
+        .product-img-box {
+            position: relative;
+            background: #000;
+            height: 190px;
+            overflow: hidden;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-orange);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .product-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-category { font-size: 0.75rem; color: var(--accent-blue); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+        .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+        .product-desc { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
+        .product-price { font-size: 1.25rem; font-weight: 800; color: #fff; margin-top: auto; margin-bottom: 12px; }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: #25d366;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: #1eb855; }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #16233b;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+                z-index: 999;
+            }
+            .nav-links.active { right: 0; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .product-img-box { height: 150px; }
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-plane-departure"></i> DESPEGAR <span>EXPRESS</span></a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#paquetes">Paquetes</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20un%20paquete%20turistico" target="_blank" class="btn-contact">
+                    <i class="fab fa-whatsapp"></i> Asesorarme
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="hero-title">Tu Próximo Destino Comienza Acá</h1>
+        <p class="hero-subtitle">Paquetes nacionales e internacionales, excursiones, traslados y pasajes al mejor precio. ¡Cotizá en el acto!</p>
+
+        <div class="search-container">
+            <div class="search-input-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar Bariloche, Mendoza, Brasil, Caribe, Cataratas...">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('todos', event)">Todos</button>
+                <button class="filter-btn" onclick="filterCategory('nacional', event)">Turismo Nacional</button>
+                <button class="filter-btn" onclick="filterCategory('caribe', event)">Caribe & Playas</button>
+                <button class="filter-btn" onclick="filterCategory('escapadas', event)">Escapadas de Fin de Semana</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="paquetes">
+        <div class="products-grid" id="products-grid">
+
+            <div class="product-card" data-category="nacional">
+                <div class="product-img-box">
+                    <span class="product-badge">7 Noches</span>
+                    <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Bariloche">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Turismo Nacional</span>
+                    <h3 class="product-title">Bariloche Soñado: Vuelos + Hotel + Excursión</h3>
+                    <p class="product-desc">Incluye traslado in/out, circuito chico y alojamiento c/desayuno.</p>
+                    <div class="product-price">Desde $ 380.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20paquete%20a%20Bariloche" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="nacional">
+                <div class="product-img-box">
+                    <span class="product-badge">4 Noches</span>
+                    <img src="https://images.unsplash.com/photo-1512553353685-200322213702?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Cataratas">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Turismo Nacional</span>
+                    <h3 class="product-title">Cataratas del Iguazú: Lado Arg. y Brasil</h3>
+                    <p class="product-desc">Vuelos directos, hotel 4 estrellas y entradas a parques incluidas.</p>
+                    <div class="product-price">Desde $ 290.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20paquete%20a%20Iguazu" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="caribe">
+                <div class="product-img-box">
+                    <span class="product-badge">All Inclusive</span>
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Cancun">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Caribe & Playas</span>
+                    <h3 class="product-title">Cancún All Inclusive: Vuelos + Resort 5*</h3>
+                    <p class="product-desc">7 noches frente al mar con todo incluido y asistencia al viajero.</p>
+                    <div class="product-price">USD 1.450</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20el%20paquete%20a%20Cancun" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="escapadas">
+                <div class="product-img-box">
+                    <span class="product-badge">3 Noches</span>
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400&auto=format&fit=crop" class="product-img" alt="Mendoza">
+                </div>
+                <div class="product-body">
+                    <span class="product-category">Escapadas</span>
+                    <h3 class="product-title">Mendoza & Ruta del Vino + Bodegas</h3>
+                    <p class="product-desc">Alojamiento boutique, degustaciones y traslados privados.</p>
+                    <div class="product-price">Desde $ 210.000</div>
+                    <a href="https://wa.me/5492204152124?text=Hola!%20Quiero%20consultar%20por%20la%20escapada%20a%20Mendoza" target="_blank" class="btn-buy">
+                        <i class="fab fa-whatsapp"></i> Consultar por WA
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Demo interactiva creada por <strong>LADevHosting</strong> — Páginas Web para Agencias de Viajes</p>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+        });
+
+        const searchInput = document.getElementById('search-input');
+        const productCards = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentCategory = 'todos';
+
+        searchInput.addEventListener('input', filterProducts);
+
+        function filterCategory(category, e) {
+            currentCategory = category;
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            if(e) e.target.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                const desc = card.querySelector('.product-desc').innerText.toLowerCase();
+                const category = card.getAttribute('data-category');
+
+                const matchesSearch = title.includes(query) || desc.includes(query);
+                const matchesCategory = currentCategory === 'todos' || category === currentCategory;
+
+                card.style.display = (matchesSearch && matchesCategory) ? 'flex' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
